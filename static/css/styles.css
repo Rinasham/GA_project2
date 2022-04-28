@@ -1,0 +1,296 @@
+html {
+  height: 100%;
+}
+
+body {
+  font-family: 'Special Elite', cursive;
+  font-size: 18px;
+  background-image:url('../imgs/damask5.jpg');
+  background-size: contain;
+  background-repeat: round;
+  margin: 0;
+  position: relative;
+  /* padding-bottom: 60px; */
+  /* min-height: 100vh; */
+  height: 100%;
+  color: white;
+  box-sizing: border-box;
+}
+
+#wrapper {
+  background-color: rgba(35,34,38,0.90);
+  height: 100%;
+  min-height: 92vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+}
+
+
+
+
+/* -------------------------- header ----------------------------------- */
+
+#line1 {
+  height: 40px;
+  /* background: #BFAC9B; */
+  background-image:url('../imgs/vintage.jpg');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+}
+
+#line1 > img {
+  width: 50%;
+}
+
+.wavy {
+  position: relative;
+  margin: 0 0 5px 0;
+  padding: 0;
+  /* テキストに引く場合は下記追加 */
+  /* display: inline-block; */
+}
+
+.wavy::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: block;
+  height: 6px;
+  background-image:
+      linear-gradient(135deg, transparent 25%, #73563D 50%, transparent 75%),
+      linear-gradient(-135deg, transparent 25%, #73563D 50%, transparent 75%);
+  background-size: 10px 5px;
+  background-position: 0, 5px;
+}
+
+#line2{
+  height: 80px;
+  background-image:
+  radial-gradient(circle at 15px 0, rgba(255,255,255,0) 14px, #BFAC9B 15px, rgba(255,255,255,0) 16px),
+  radial-gradient(circle at 15px 0, rgba(255,255,255,0) 14px, #BFAC9B 15px, rgba(255,255,255,0) 16px),
+  radial-gradient(circle at 15px 0, rgba(255,255,255,0) 4px, #BFAC9B 5px, rgba(255,255,255,0) 6px),
+  radial-gradient(circle at 5px 5px, rgba(255,255,255,0) 1px, #BFAC9B 2px, rgba(255,255,255,0) 3px);
+  background-repeat: repeat-x;
+  background-position: 0 0, 15px 6px, 0 0, 25px 9px;
+  background-size: 30px 21px, 30px 21px, 30px 21px, 30px 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#line2 > img{
+  margin: 0 calc(115% - 90vw);
+  width: 80vw;
+  height: 90vh;
+  z-index: -1;
+  position: relative;
+}
+
+#line2 > ul {
+  display: flex;
+  margin-right: 20px;
+  margin-bottom: 0;
+}
+
+#line2 > ul > li {
+  list-style: none;
+  margin: 0 8px -2px;
+  display: flex;
+  justify-content: baseline;
+}
+
+
+#line2 > ul > li > a {
+  text-decoration: none;
+  color: white;
+  width: 5em;
+  height: 50%;
+  text-align: center;
+  display: block;
+  padding-top: 0.7em;
+  border-bottom: 0;
+  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
+  border-style: solid;
+  /* border-top: 3px solid white; */
+}
+
+#line2 > ul > li > a:hover {
+  color:  #8C323A;
+}
+
+a:-webkit-any-link {
+  color: white;
+  text-decoration: none !important;
+}
+
+a:hover {
+  color:  #4C7373;
+}
+
+
+
+#line3 {
+  height: 40px;
+  background-image:url('../imgs/vintage.jpg');
+  background-size: cover;
+  display: flex;
+  align-items: center;
+}
+
+#line3 > p {
+  margin: -6.4em 0 0 20px;
+}
+
+
+
+#line4 {
+  height: 20px;
+  background-image:url('../imgs/blue2.jpg');
+  background-size: cover;
+}
+
+
+/* -------------------------- main ----------------------------------- */
+
+main {
+  min-height: 50vh;
+  height: 90%;
+  padding-bottom: 45px;
+  /* lace */
+  background-image:
+  radial-gradient(circle at 15px 0, rgba(255,255,255,0) 14px, #BFAC9B 15px, rgba(255,255,255,0) 16px),
+  radial-gradient(circle at 15px 0, rgba(255,255,255,0) 14px, #BFAC9B 15px, rgba(255,255,255,0) 16px),
+  radial-gradient(circle at 15px 0, rgba(255,255,255,0) 4px, #BFAC9B 5px, rgba(255,255,255,0) 6px),
+  radial-gradient(circle at 5px 5px, rgba(255,255,255,0) 1px, #BFAC9B 2px, rgba(255,255,255,0) 3px);
+  background-repeat: repeat-x;
+  background-position: 0 0, 15px 6px, 0 0, 25px 9px;
+  background-size: 30px 21px, 30px 21px, 30px 21px, 30px 20px;
+}
+
+#main-wrapper {
+  z-index: 10000;
+  width: 70%;
+  margin: 45px auto 25px;
+  text-align: center;
+  /* for quiz page */
+  background-image:url('../imgs/content.jpg');
+  background-size: cover;
+  background-repeat: round;
+  height: -webkit-fill-available;
+  box-shadow: 0px 0px 30px #BFAC9B;
+}
+
+#white-bg {
+  background-color: rgba(92, 59, 52, 0.45);
+  padding: 0.5em;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+
+h1 {
+  margin-bottom: 0;
+}
+
+
+
+
+/* -------------------------- footer ----------------------------------- */
+
+
+footer {
+  background-color: #4C7373;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  line-height: 0.5em;
+}
+
+
+/* ------------  quiz page -------------------------------------------- */
+
+.page-title {
+  padding-bottom: 0.3em;
+  display: inline;
+  border-bottom: 0;
+  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
+  border-style: solid;
+}
+
+.category {
+  margin-top: 3.5em;
+}
+
+#quiz-wrapper {
+  background-color:rgba(255,255,255,0.8);
+  width: 70%;
+  height: 40vh;
+  margin: auto;
+  text-align: center;
+  padding: 1em;
+  color: #232226;
+  display: flex;
+  justify-content: space-around;
+}
+
+
+
+/* ------ code options ---------- */
+
+#code-choices {
+  display: flex;
+  justify-content: center;
+  font-size: 0.7em;
+}
+
+#code-choices > p {
+  margin: 0 7px;
+  padding: 0 12px 4px;
+  padding-bottom: 4px;
+  border-bottom: solid 2px #8C323A;
+}
+
+
+
+
+/* ------ contact page ---------- */
+
+#contact {
+  width: 60%;
+  margin: auto;
+}
+
+
+
+#contact > form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+input, textarea {
+  border: none;
+  opacity: 80%;
+  margin: 8px;
+  padding: 15px;
+}
+
+input:focus, textarea:focus {
+  outline: 0;
+}
+
+button {
+  border: none;
+  padding: 8px;
+  margin: 10px;
+  margin-bottom: 30px;
+  width: 50%;
+}

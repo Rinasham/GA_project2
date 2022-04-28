@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+<h1>QUIZ</h1>
+<div id="quiz-wrapper">
+  <div>
+    <p id="question"></p>
+  </div>
+  <div id="options"></div>
+</div>
+{% endblock %}
+
+
+
+
+{% block script %}
+<script type="text/javascript">
+  function convertData(){
+    return new Promise((resolve, reject)=>{
+      let listData = JSON.parse('{{ list | tojson }}');
+    // console.log(listData);
+    resolve(listData)
+    })
+  }
+</script>
+<script src="{{ url_for('static',filename='JS/quiz.js') }}"></script>
+{% endblock %}

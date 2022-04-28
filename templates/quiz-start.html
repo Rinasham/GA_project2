@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block main %}
+<h1 class="page-title">Quiz page</h1>
+<div class="category">
+  <p><a href="{{ url_for('quiz_main', categoryName='linux')}}">Linux</a></p>
+  <!-- <p><a href="{{ url_for('quiz_main', categoryName='python')}}">Python</a></p> -->
+  <p><a href="{{ url_for('quiz_main', categoryName='bash')}}">Bash</a></p>
+  <p><a href="{{ url_for('quiz_main', categoryName='Docker')}}">Docker</a></p>
+  <p><a href="{{ url_for('quiz_main', categoryName='SQL')}}">SQL</a></p>
+  <p><a href="{{ url_for('quiz_main', categoryName='CMS')}}">CSM</a></p>
+  <p><a href="#">Code (All languages)</a></p>
+
+  <div id="code-choices">
+    <p><a href="{{ url_for('quiz_main', categoryName='HTML')}}">HTML</a></p>
+    <p><a href="{{ url_for('quiz_main', categoryName='PHP')}}">PHP</a></p>
+    <p><a href="{{ url_for('quiz_main', categoryName='JavaScript')}}">JavaScript</a></p>
+    <p><a href="{{ url_for('quiz_main', categoryName='Python')}}">Python</a></p>
+  </div>
+  <p><a href="{{ url_for('quiz_main', categoryName='DevOps')}}">DevOps</a></p>
+</div>
+{% endblock %}

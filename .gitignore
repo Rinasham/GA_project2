@@ -1,4 +1,7 @@
 .DS_Store
+*.txt
+*.drawio
+*.sql
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

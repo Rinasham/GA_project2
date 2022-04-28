@@ -1,0 +1,14 @@
+{% extends 'registration-base.html' %}
+
+{% block main %}
+  <div class="container">
+    <h1>SIGN UP</h1>
+    <form action="/signup" method="POST">
+      <input type="text" name="email" placeholder="email">
+      <input type="text" name="name" placeholder="name">
+      <input type="text" name="password1" placeholder="password">
+      <input type="text" name="password2" placeholder="password confirmation">
+      <div><button type="submit">SIGN UP</button></div>
+    </form>
+  </div>
+{% endblock %}

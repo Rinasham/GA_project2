@@ -8,6 +8,8 @@ gunicorn = "*"
 psycopg2 = "*"
 bcrypt = "*"
 Flask = "*"
+requests = "*"
+jinja2 = "*"
 
 [dev-packages]
 

@@ -2,5 +2,5 @@ gunicorn
 flask
 psycopg2
 bcrypt
-
-
+requests
+jinja2

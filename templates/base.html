@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/styles.css') }}">
+  {% block mainScript %}
+  {% endblock %}
+</head>
+<body>
+  <div id="wrapper">
+    <div id="header">
+      <div id="line1">
+        <img src="{{ url_for('static', filename='imgs/line-gold.png') }}">
+      </div>
+      <p class="wavy"></p>
+      <div id="line2">
+        <img src="{{ url_for('static', filename='imgs/compass.png') }}">
+        <ul>
+          {% if user == None %}
+            <li><a href="{{ url_for('show_signup') }}">Sign up</a></li>
+            <li><a href="{{ url_for('show_login')}}">Log in</a></li>
+          {% else %}
+            <li><a href="{{ url_for('logout')}}">Log out</a></li>
+          {% endif %}
+          <li><a href="{{ url_for('index') }}">Home</a></li>
+          <li><a href="{{ url_for('quiz_top') }}">Quiz</a></li>
+          <li><a href="{{ url_for('showContact') }}">Contact</a></li>
+          <li><a href="{{ url_for('showAbout') }}">About</a></li>
+        </ul>
+      </div>
+      <p class="wavy"></p>
+      <div id="line3">
+        {% if user == None %}
+          <p>Signed in as a guest</p>
+        {% else %}
+          <p>Welcome {{ user }}</p>
+        {% endif %}
+      </div>
+      <p class="wavy"></p>
+      <div id="line4"></div>
+    </div>
+    <main>
+      <div id="main-wrapper">
+        <div id="white-bg">
+          {% block main %}
+          {% endblock %}
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>copyright 2022 RINA</p>
+    </footer>
+  </div>
+  {% block script %}
+  {% endblock %}
+</body>
+</html>

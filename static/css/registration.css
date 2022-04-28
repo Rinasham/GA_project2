@@ -1,0 +1,87 @@
+html {
+  height: 100%;
+}
+
+
+body {
+  font-family: 'Special Elite', cursive;
+  font-size: 18px;
+  margin: 0 auto;
+  position: relative;
+  padding-bottom: 60px;
+  /* min-height: 100vh; */
+  height: 100%;
+  box-sizing: border-box;
+  color: white;
+  background-image: linear-gradient(to left,rgba(65,99,99,0.9) 50%, rgba(76,115,115,0.9) 50%);
+  background-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+
+footer {
+  background-color:  #8C323A;
+  color: white;
+  position: absolute;
+  bottom: 0;
+  margin-top: auto;
+  width: 100%;
+  text-align: center;
+  line-height: 0.5em;
+}
+
+
+
+
+.container {
+  margin-top: 0;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 60%;
+}
+
+
+
+/* ---- form ----- */
+
+h1 {
+  margin-bottom: 50px;
+}
+
+input {
+  display: block;
+  border: none;
+  padding: 20px;
+  opacity: 80%;
+  margin: 12px;
+  padding: 15px;
+  background-color: #BFAC9B;
+}
+
+input:focus, textarea:focus {
+  outline: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  padding: 20px;
+  margin: 30px;
+  margin-bottom: 40px;
+  width: 50%;
+  background-color: #A66D60;
+  opacity: 80%;
+  color: #fff;
+}
