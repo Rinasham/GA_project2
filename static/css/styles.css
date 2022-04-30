@@ -240,6 +240,32 @@ footer {
   justify-content: space-around;
 }
 
+#question, #options {
+  width: 50%;
+}
+
+#question{
+  display: flex;
+  align-items: center;
+}
+
+#quiestion > p {
+  line-height: 140%;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+#options > form > button {
+  background-color: Transparent;
+}
+
+#options > form > button:hover {
+  color: #8C323A;
+}
 
 
 /* ------ code options ---------- */

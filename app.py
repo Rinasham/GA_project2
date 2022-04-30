@@ -5,6 +5,7 @@ import bcrypt
 ## ------------ other files --------------
 from db_settings import connectToDB, closeDB
 from user import get_name
+from check_answer import check
 ## ------------ options --------------
 import random
 import json
@@ -15,6 +16,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'This is the secret key for session.')
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
+
 
 
 #----------------------------- Authentication -----------------------------------
@@ -138,32 +140,86 @@ def showAbout():
     return render_template('about.html')
 
 
-#----------------------------- QUIZ -----------------------------------
+#----------------------------- API -----------------------------------
 
 @app.route('/quiz')
 def quiz_top():
-
-
+    global quiz_list
+    global quiz_count
+    global correct_count
+    quiz_list = []
+    quiz_count = 10
+    correct_count = 0
+    print(len(quiz_list))
     return render_template('quiz-start.html')
 
 @app.route('/quiz/<categoryName>')
 def quiz_main(categoryName):
-    print(categoryName)
 
     url = f'http://localhost:3000/quiz/{categoryName}'
-    res = requests.get(url).json()
+    res = requests.get(url).json() # list
     # for obj in res:
     #     print(obj['tags'][0]['name'])
 
-    quiz_list = random.sample(res, 1)
-    print(json.dumps(quiz_list, indent=2))
+    list = random.sample(res, 10)
+    for item in list:
+        quiz_list.append(item)
 
-    return render_template('quiz-main.html', list = quiz_list)
+    return redirect('/progress')
 
 
 
-#----------------------------------------------------------------
+#----------------------------Quiz control ------------------------------------
 
+##------------ variable ---------------
+quiz_list = []
+current_quiz_answer = ''
+quiz_count = 10
+correct_count = 0
+options_list = ['a', 'b', 'c', 'd']
+
+##-------------------------------------
+
+@app.route('/progress')
+def handle_quiz():
+    global quiz_list
+    global quiz_count
+    global current_quiz_answer
+
+    if quiz_count > 0:
+        next_quiz = quiz_list[quiz_count -1]
+        current_quiz_answer = next_quiz['correct_answer']
+        # next_quiz.pop()
+        print(str(quiz_count) + " quiz count")
+        next_quiz = {
+            'id' : next_quiz['_id'],
+            'question' : next_quiz['question'],
+            'answers' : next_quiz['answers'],
+        }
+        quiz_count -= 1
+        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list)
+    else:
+        quiz_list = []
+        quiz_count = 10
+        return 'finished'
+
+
+
+
+@app.route('/progress', methods=['POST'])
+def check_answer():
+    global correct_count
+    reqID = request.form.get('quiz-id')
+    print(reqID)
+    chosen_answer = request.form.get('chosen-answer')
+    print('answer is ' + current_quiz_answer)
+    print('chosen answer is ' + chosen_answer)
+    # check whether the chosen answer was correct
+    checked_answer = check(current_quiz_answer, chosen_answer)
+    if checked_answer == True:
+        correct_count += 1
+    print('correct count is ' + str(correct_count))
+    return redirect('/progress')
 
 
 
