@@ -15,7 +15,7 @@
       <form action="/progress" method="POST">
         <input type="hidden" name="quiz-id" value="{{ quiz['id'] }}">
         <input type="hidden" name="chosen-answer" value="{{ options_list[loop.index -1] }}">
-        <button type="submit">{{ item }}</button>
+        <button type="submit" class="answer-submit" onclick="disableAnswers()">{{ item }}</button>
       </form>
     {% endfor %}
   </div>

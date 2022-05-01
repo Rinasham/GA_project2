@@ -34,7 +34,9 @@
             <li><a href="{{ url_for('logout')}}">Log out</a></li>
           {% endif %}
           <li><a href="{{ url_for('index') }}">Home</a></li>
+          {% if page != 'quiz' %}
           <li><a href="{{ url_for('quiz_top') }}">Quiz</a></li>
+          {% endif %}
           <li><a href="{{ url_for('showContact') }}">Contact</a></li>
           <li><a href="{{ url_for('showAbout') }}">About</a></li>
         </ul>
