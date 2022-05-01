@@ -147,10 +147,12 @@ def quiz_top():
     global quiz_list
     global quiz_count
     global correct_count
+    global QandA_list
     quiz_list = []
+    QandA_list = []
     quiz_count = 10
     correct_count = 0
-    print(len(quiz_list))
+
     return render_template('quiz-start.html')
 
 @app.route('/quiz/<categoryName>')
@@ -187,7 +189,7 @@ def handle_quiz():
     global current_quiz_answer
 
     if quiz_count > 0:
-        next_quiz = quiz_list[quiz_count -1]
+        next_quiz = quiz_list[quiz_count -1] # obj
         current_quiz_answer = next_quiz['correct_answer']
         # next_quiz.pop()
         print(str(quiz_count) + " quiz count")
@@ -199,9 +201,8 @@ def handle_quiz():
         quiz_count -= 1
         return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list)
     else:
-        quiz_list = []
         quiz_count = 10
-        return 'finished'
+        return redirect('/finish')
 
 
 
@@ -222,10 +223,69 @@ def check_answer():
     return redirect('/progress')
 
 
+QandA_list = []
+
+@app.route('/finish')
+def show_answers():
+    global quiz_list
+    global QandA_list
+    quiz_list.reverse()
+    print(f'quiz_listの長さ  {len(quiz_list)}')
+    for item in quiz_list:
+        answer_char = item['correct_answer']
+        answer = item['answers'][answer_char]
+        obj = {
+            'question' : item['question'],
+            'answer' : answer
+        }
+        QandA_list.append(obj)
+
+    return render_template('finish.html', QandA_list = QandA_list)
 
 
-#----------------------------- -----------------------------------
+#----------------------------- admin -----------------------------------
 
+@app.route('/admin')
+def show_admin():
+    userID = session.get('user_id')
+    print(userID)
+    # check whether the user is admin
+    conn, cur = connectToDB()
+    try:
+        cur.execute(f"SELECT is_admin FROM users WHERE id='{userID}'")
+        is_admin = cur.fetchone()[0]
+
+        # if the password is correct, set user-id to session
+        if is_admin:
+            print('This user is admin.')
+            category_list = ['linux', 'network', 'computer', 'database', 'html', 'css', 'javascript', 'python', 'git']
+            return render_template('admin.html', category_list = category_list)
+
+        else:
+            print('This user is not admin.')
+            return redirect('/login')
+
+    except TypeError as error:
+        print('No such user.')
+
+    except  (Exception, psycopg2.Error) as error:
+        if (conn):
+            print("Failed to search the data.", error)
+
+    finally:
+        if (conn):
+            closeDB(conn,cur)
+
+
+
+@app.route('/admin_add_quiz', methods=['POST'])
+def add_quiz():
+
+    return redirect('/')
+
+
+
+#-----------------------------  -----------------------------------
 
 if __name__ == '__main__':
     app.run(debug=True)
