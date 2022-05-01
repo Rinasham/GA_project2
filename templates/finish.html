@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}<title>finish</title>{% endblock %}
+
+{% block main %}
+<div id="result">
+  <!-- <p>{{ QandA_list | length }}</p> -->
+  {% for item in QandA_list %}
+  <div class="QandA">
+    <p>{{ loop.index }}.</p>
+    <p class="result-question">
+      {{ item['question'] }}
+    </p>
+    <p class="answer">{{ item['answer'] }}</p>
+  </div>
+{% endfor %}
+</div>
+{% endblock %}

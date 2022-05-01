@@ -4,14 +4,14 @@
 
 {% block main %}
 <h1 class="page-title">Quiz page</h1>
-<div class="category">
+<div>
   <p><a href="{{ url_for('quiz_main', categoryName='linux')}}">Linux</a></p>
   <!-- <p><a href="{{ url_for('quiz_main', categoryName='python')}}">Python</a></p> -->
   <p><a href="{{ url_for('quiz_main', categoryName='network')}}">Network</a></p>
   <!-- <p><a href="{{ url_for('quiz_main', categoryName='docker')}}">Docker</a></p> -->
   <p><a href="{{ url_for('quiz_main', categoryName='computer')}}">Computer</a></p>
   <p><a href="{{ url_for('quiz_main', categoryName='database')}}">Database</a></p>
-  <p><a href="#">Code (All languages)</a></p>
+  <p>↓ Code ↓</p>
   <div id="code-choices">
     <p><a href="{{ url_for('quiz_main', categoryName='html')}}">HTML</a></p>
     <p><a href="{{ url_for('quiz_main', categoryName='css')}}">CSS</a></p>

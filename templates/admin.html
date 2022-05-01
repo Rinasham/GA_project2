@@ -39,15 +39,15 @@
   <h1>admin page</h1>
   <div>
     <form action="/admin_add_quiz" method="POST">
-      <label for="queestion">question</label>
-      <input type="text" placeholder="question" id="question">
+      <label for="question">question</label>
+      <input type="text" placeholder="question" id="question" name="question">
       <div id="options">
         <p>answer options</p>
         <input type="text" name="answer_a" placeholder="option a">
         <input type="text" name="answer_b" placeholder="option b">
         <input type="text" name="answer_c" placeholder="option c">
         <input type="text" name="answer_d" placeholder="option d">
-        <input type="text" placeholder="correct answer (a, b, c, d)">
+        <input type="text" placeholder="correct answer (a, b, c, d)" name="correct_answer">
         <p>category</p>
         <select name="category" id="category" size="6">
           {% for category in category_list %}
