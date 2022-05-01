@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>admin</title>
+  <style>
+    body {
+      width: 80%;
+      margin: auto;
+      text-align: center;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    #options {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 80%;
+      margin: auto;
+    }
+    input, select {
+      margin: 10px;
+    }
+
+    button {
+      padding: 10px 30px;
+      border: none;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>admin page</h1>
+  <div>
+    <form action="/admin_add_quiz" method="POST">
+      <label for="queestion">question</label>
+      <input type="text" placeholder="question" id="question">
+      <div id="options">
+        <p>answer options</p>
+        <input type="text" name="answer_a" placeholder="option a">
+        <input type="text" name="answer_b" placeholder="option b">
+        <input type="text" name="answer_c" placeholder="option c">
+        <input type="text" name="answer_d" placeholder="option d">
+        <input type="text" placeholder="correct answer (a, b, c, d)">
+        <p>category</p>
+        <select name="category" id="category" size="6">
+          {% for category in category_list %}
+            <option label="{{ category }}">{{ category }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">ADD QUIZ</button>
+      </div>
+      <p><a href="{{ url_for('index') }}">Go back to top page</a></p>
+    </form>
+  </div>
+</body>
+</html>
