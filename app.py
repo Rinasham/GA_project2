@@ -155,13 +155,11 @@ def quiz_top():
 
     return render_template('quiz-start.html')
 
+
 @app.route('/quiz/<categoryName>')
 def quiz_main(categoryName):
-
     url = f'http://localhost:3000/quiz/{categoryName}'
     res = requests.get(url).json() # list
-    # for obj in res:
-    #     print(obj['tags'][0]['name'])
 
     list = random.sample(res, 10)
     for item in list:
@@ -280,8 +278,37 @@ def show_admin():
 
 @app.route('/admin_add_quiz', methods=['POST'])
 def add_quiz():
+    question = request.form.get('question')
+    answer_a = request.form.get('answer_a')
+    answer_b = request.form.get('answer_b')
+    answer_c = request.form.get('answer_c')
+    answer_d = request.form.get('answer_d')
+    correct_answer = request.form.get('correct_answer')
+    category = request.form.get('category')
+
+
+    # send
+    url = 'http://localhost:3000/add-quiz'
+    data = {
+        'question': question,
+        'answer_a' : answer_a,
+        'answer_b' : answer_b,
+        'answer_c' : answer_c,
+        'answer_d': answer_d,
+        'correct_answer' : correct_answer,
+        'category' : category
+    }
+
+    # res = requests.post(url).json() # list
+    res = requests.post(url = url, data = data)
+
+    if res.status_code == 200:
+        print('200だよ')
+    else:
+        print('200じゃないよ')
 
     return redirect('/')
+
 
 
 
