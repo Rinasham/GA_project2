@@ -158,7 +158,8 @@ def quiz_top():
 
 @app.route('/quiz/<categoryName>')
 def quiz_main(categoryName):
-    url = f'http://localhost:3000/quiz/{categoryName}'
+    # url = f'http://localhost:3000/quiz/{categoryName}'
+    url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
     res = requests.get(url).json() # list
 
     list = random.sample(res, 10)
@@ -261,7 +262,7 @@ def show_admin():
 
         else:
             print('This user is not admin.')
-            return redirect('/login')
+            return redirect('/')
 
     except TypeError as error:
         print('No such user.')
@@ -288,7 +289,8 @@ def add_quiz():
 
 
     # send
-    url = 'http://localhost:3000/add-quiz'
+    # url = 'http://localhost:3000/add-quiz'
+    url = 'https://project2-node-express.herokuapp.com/add-quiz'
     data = {
         'question': question,
         'answer_a' : answer_a,
