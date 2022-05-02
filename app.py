@@ -3,13 +3,14 @@ from flask import Flask, request, redirect, render_template, session, flash
 import requests
 import bcrypt
 ## ------------ other files --------------
-from db_settings import connectToDB, closeDB
+from db_settings import DB_URL, connectToDB, closeDB
 from user import get_name
 from check_answer import check
 ## ------------ options --------------
 import random
 import json
 import os
+import datetime
 
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'This is the secret key for session.')
@@ -17,6 +18,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'This is the secret key for session.')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 
+
+page = ''
 
 
 #----------------------------- Authentication -----------------------------------
@@ -117,47 +120,68 @@ def logout():
 
 #----------------------------------------------------------------
 
-
-@app.route('/')
-def index():
-    userId = session.get('user_id')
-    print(userId)
-    if userId != None:
-        user = get_name(userId)
-    else:
-        user = None
-    return render_template('home.html', user= user)
-
-
-
-@app.route('/contact')
-def showContact():
-    return render_template('contact.html')
-
-
-@app.route('/about')
-def showAbout():
-    return render_template('about.html')
-
-
-#----------------------------- API -----------------------------------
-
-@app.route('/quiz')
-def quiz_top():
+def init_quiz():
     global quiz_list
     global quiz_count
     global correct_count
     global QandA_list
+
     quiz_list = []
     QandA_list = []
     quiz_count = 10
     correct_count = 0
 
-    return render_template('quiz-start.html')
+#--------------------------------
+
+
+@app.route('/')
+def index():
+    global page
+    page = 'top'
+    init_quiz()
+    userId = session.get('user_id')
+    if userId != None:
+        user = get_name(userId)
+    else:
+        user = None
+    return render_template('home.html', user=user, page=page)
+
+
+
+@app.route('/contact')
+def showContact():
+    global page
+    page = 'contact'
+    init_quiz()
+    return render_template('contact.html', page='contact')
+
+
+@app.route('/about')
+def showAbout():
+    global page
+    page = 'about'
+    init_quiz()
+    return render_template('about.html', page=page)
+
+
+#----------------------------- API -----------------------------------
+
+current_category = ''
+
+@app.route('/quiz')
+def quiz_top():
+    global page
+    page = 'quiz'
+
+
+    return render_template('quiz-start.html', page=page)
 
 
 @app.route('/quiz/<categoryName>')
 def quiz_main(categoryName):
+    global current_category
+    current_category = categoryName
+
     # url = f'http://localhost:3000/quiz/{categoryName}'
     url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
     res = requests.get(url).json() # list
@@ -182,12 +206,15 @@ options_list = ['a', 'b', 'c', 'd']
 
 ##-------------------------------------
 
+
 @app.route('/progress')
 def handle_quiz():
     global quiz_list
     global quiz_count
     global current_quiz_answer
+    global page
 
+    page = 'quiz'
     if quiz_count > 0:
         next_quiz = quiz_list[quiz_count -1] # obj
         current_quiz_answer = next_quiz['correct_answer']
@@ -199,7 +226,7 @@ def handle_quiz():
             'answers' : next_quiz['answers'],
         }
         quiz_count -= 1
-        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list)
+        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page)
     else:
         quiz_count = 10
         return redirect('/finish')
@@ -213,8 +240,7 @@ def check_answer():
     reqID = request.form.get('quiz-id')
     print(reqID)
     chosen_answer = request.form.get('chosen-answer')
-    print('answer is ' + current_quiz_answer)
-    print('chosen answer is ' + chosen_answer)
+
     # check whether the chosen answer was correct
     checked_answer = check(current_quiz_answer, chosen_answer)
     if checked_answer == True:
@@ -229,8 +255,37 @@ QandA_list = []
 def show_answers():
     global quiz_list
     global QandA_list
+    global page
+    global current_category
+    global correct_count
+
+    page = 'quiz'
+
+    # insert the game data into result table
+    userID = session.get('user_id')
+    current_date = datetime.datetime.now()
+
+    # if the user has logged in, insert data and redirect to user page
+    if userID != None:
+        conn, cur = connectToDB()
+        try:
+            cur.execute(f"INSERT INTO results(player_id, all_quiz, correct_answers, category, date) VALUES(%s,%s,%s,%s,%s)",
+                        (userID, 10, correct_count, current_category, current_date))
+            conn.commit()
+            print('Successfully inserted new game record into result table.')
+
+        except  (Exception, psycopg2.Error) as error:
+            if (conn):
+                print("Failed to insert new game data into result table.", error)
+
+        finally:
+            if (conn):
+                closeDB(conn,cur)
+
+
+    # render all the questions and correct answers
     quiz_list.reverse()
-    print(f'quiz_listの長さ  {len(quiz_list)}')
+
     for item in quiz_list:
         answer_char = item['correct_answer']
         answer = item['answers'][answer_char]
@@ -240,13 +295,14 @@ def show_answers():
         }
         QandA_list.append(obj)
 
-    return render_template('finish.html', QandA_list = QandA_list)
+    return render_template('finish.html', QandA_list = QandA_list, page=page)
 
 
 #----------------------------- admin -----------------------------------
 
 @app.route('/admin')
 def show_admin():
+    init_quiz()
     userID = session.get('user_id')
     print(userID)
     # check whether the user is admin
@@ -306,16 +362,29 @@ def add_quiz():
     res = requests.post(url = url, data = data)
 
     if res.status_code == 200:
-        print('200だよ')
+        print('Status code 200')
     else:
-        print('200じゃないよ')
+        print('Status code NOT 200')
 
     return redirect('/')
 
 
 
 
-#-----------------------------  -----------------------------------
+#----------------------------- user page -----------------------------------
+
+@app.route('/account')
+def show_account():
+    userID = session.get('user_id')
+    print(userID)
+    return render_template('account.html')
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -31,6 +31,7 @@
             <li><a href="{{ url_for('show_signup') }}">Sign up</a></li>
             <li><a href="{{ url_for('show_login')}}">Log in</a></li>
           {% else %}
+          <li><a href="{{ url_for('show_account') }}">Account</a></li>
             <li><a href="{{ url_for('logout')}}">Log out</a></li>
           {% endif %}
           <li><a href="{{ url_for('index') }}">Home</a></li>
