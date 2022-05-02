@@ -381,7 +381,15 @@ def show_account():
     return render_template('account.html')
 
 
+#----------------------------- error handler -----------------------------------
 
+@app.errorhandler(404)
+def error404(error):
+    return render_template('error/error404.html')
+
+@app.errorhandler(500)
+def error500(error):
+    return render_template('error/error500.html')
 
 
 
