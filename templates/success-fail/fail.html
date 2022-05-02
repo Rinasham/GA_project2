@@ -3,6 +3,9 @@
 {% block title %}<title>fail</title>{% endblock %}
 
 {% block main %}
-<h1>Error</h1>
-<p>{{ text }}</p>
+<div style="text-align: center;">
+  <h1>Error</h1>
+  <p>{{ text }}</p>
+  <p id="btn"><a href="{{ url_for('index') }}">Back to Main</a></p>
+</div>
 {% endblock %}
