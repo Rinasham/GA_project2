@@ -4,26 +4,26 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="{{ url_for('static',filename='css/error.css') }}">
-  <title>request</title>
+  <title>update</title>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/error.css') }}">
 </head>
 <body>
   <main>
-    <h1>quiz request</h1>
-      <form action="/quiz_request" method="POST" id="request-form">
+    <h1>UPDATE QUIZ</h1>
+      <form action="/update" method="POST" id="request-form">
         <div class="flex-items">
           <div class="title"><label for="question">question</label></div>
-          <input type="text" placeholder="question" id="question" name="question">
+          <input type="text" placeholder="question" id="question" name="question" value="{{ data['question'] }}">
         </div>
         <div class="flex-items">
           <div class="title">
             <p>answer options</p>
           </div>
           <div id="options">
-            <input type="text" name="answer_a" placeholder="option a">
-            <input type="text" name="answer_b" placeholder="option b">
-            <input type="text" name="answer_c" placeholder="option c">
-            <input type="text" name="answer_d" placeholder="option d">
+            <input type="text" name="answer_a" value="{{ data['answer_a'] }}">
+            <input type="text" name="answer_b" value="{{ data['answer_b'] }}">
+            <input type="text" name="answer_c" value="{{ data['answer_c'] }}">
+            <input type="text" name="answer_d" value="{{ data['answer_d'] }}">
           </div>
         </div>
         <div class="flex-items">
@@ -46,13 +46,13 @@
             {% endfor %}
           </div>
         </div>
-        <div id="btn-wrapper"><button type="submit" id="disable">SEND QUIZ REQUEST</button></div>
+        <input type="hidden" name="id" value="{{ data['id'] }}">
+        <div id="btn-wrapper">
+          <button type="submit" id="disable">UPDATE</button>
+        </div>
       </form>
       <p id="go-to-main"><a href="{{ url_for('index') }}">Go back to top page</a></p>
   </main>
-  <footer>
-    <p>copyright 2022 RINA</p>
-  </footer>
   <script src="{{ url_for('static',filename='JS/quiz.js') }}"></script>
 </body>
 </html>

@@ -82,11 +82,12 @@ def login():
     else:
         conn, cur = connectToDB()
         try:
-            cur.execute(f"SELECT id, hashed_password FROM users WHERE email='{email}'")
+            cur.execute(f"SELECT id, hashed_password, is_admin FROM users WHERE email='{email}'")
             result = cur.fetchone()
             print(result)
             ## check whether the password is correct or not
             hashed_password = result[1]
+            is_admin = result[2]
             is_valid = bcrypt.checkpw(req_password.encode(), hashed_password.encode())
             print(is_valid)
             # if the password is correct, set user-id to session
@@ -94,6 +95,7 @@ def login():
                 found_id = result[0]
                 print(f'User found. {found_id}')
                 session['user_id'] = found_id
+                session['is_admin'] = is_admin
             else:
                 print('Password does not match.')
 
@@ -231,7 +233,8 @@ def handle_quiz():
             'answers' : next_quiz['answers'],
         }
         quiz_count -= 1
-        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page)
+        is_admin = session.get('is_admin')
+        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page, is_admin=is_admin)
     else:
         quiz_count = 10
         return redirect('/finish')
@@ -359,7 +362,7 @@ def show_admin():
         if is_admin:
             print('This user is admin.')
 
-            return render_template('admin.html', category_list = category_list)
+            return render_template('admin/add.html', category_list = category_list)
 
         else:
             print('This user is not admin.')
@@ -388,7 +391,6 @@ def add_quiz():
     correct_answer = request.form.get('correct_answer')
     category = request.form.get('category')
 
-
     # send
     # url = 'http://localhost:3000/add-quiz'
     url = 'https://project2-node-express.herokuapp.com/add-quiz'
@@ -402,7 +404,6 @@ def add_quiz():
         'category' : category
     }
 
-    # res = requests.post(url).json() # list
     res = requests.post(url = url, data = data)
 
     if res.status_code == 200:
@@ -413,6 +414,54 @@ def add_quiz():
     return redirect('/')
 
 
+@app.route('/update')
+def show_update():
+    reqID = request.form.get('id')
+    print(reqID)
+    return render_template('admin/update.html', id=reqID)
+
+
+@app.route('/update', methods=['POST'])
+def update_quiz():
+    reqID = request.form.get('id')
+    print(f'requested id is {reqID}')
+
+    url = f'http://localhost:3000/get/{reqID}'
+    # url = f'https://project2-node-express.herokuapp.com/get/{reqID}'
+    res = requests.get(url).json() # list
+    print(res)
+
+    if res:
+        data = {
+            'id' : res['_id'],
+            'question': res['question'],
+            'answer_a' : res['answers']['a'],
+            'answer_b' : res['answers']['b'],
+            'answer_c' : res['answers']['c'],
+            'answer_d': res['answers']['d'],
+            'correct_answer' : res['correct_answer'],
+            'category' : res['category']
+        }
+        return render_template('admin/update.html', data=data, options=options_list, category_list=category_list)
+    else:
+        text = 'Unfortunately we could not get data from API.'
+        return render_template('success-fail/fail.html', text=text)
+
+
+
+@app.route('/delete')
+def show_delete():
+    reqID =request.form.get('id')
+    print(reqID)
+    return render_template('admin/delete.html', id=reqID)
+
+
+@app.route('/delete', methods=['POST'])
+def delete_quiz():
+    reqID = request.form.get('id')
+    print(reqID)
+
+    return 'ok'
 
 
 #----------------------------- user page -----------------------------------

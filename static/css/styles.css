@@ -358,3 +358,12 @@ button {
   margin-bottom: 30px;
   width: 50%;
 }
+
+#admin-btn {
+  display: flex;
+}
+
+#admin-btn > form > button {
+  margin-bottom: 10px;
+  width: auto;
+}

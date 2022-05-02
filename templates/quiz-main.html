@@ -3,23 +3,34 @@
 {% block title %}<title>main</title>{% endblock %}
 
 {% block main %}
-<!-- <p>{{ quiz }}</p> -->
-<div id="quiz-wrapper">
-  <div id="question">
-    <p>
-      {{ quiz['question'] }}
-    </p>
+  <div id="quiz-wrapper">
+    <div id="question">
+      <p>
+        {{ quiz['question'] }}
+      </p>
+    </div>
+    <div id="options">
+      {% for item in quiz['answers'].values() %}
+        <form action="/progress" method="POST">
+          <input type="hidden" name="quiz-id" value="{{ quiz['id'] }}">
+          <input type="hidden" name="chosen-answer" value="{{ options_list[loop.index -1] }}">
+          <button type="submit" class="answer-submit" onclick="disableAnswers()">{{ item }}</button>
+        </form>
+      {% endfor %}
+    </div>
   </div>
-  <div id="options">
-    {% for item in quiz['answers'].values() %}
-      <form action="/progress" method="POST">
-        <input type="hidden" name="quiz-id" value="{{ quiz['id'] }}">
-        <input type="hidden" name="chosen-answer" value="{{ options_list[loop.index -1] }}">
-        <button type="submit" class="answer-submit" onclick="disableAnswers()">{{ item }}</button>
-      </form>
-    {% endfor %}
+  {% if is_admin == True %}
+  <div id="admin-btn">
+    <form action="/update" method="POST">
+      <input type="hidden" name="id" value="{{ quiz['id'] }}">
+      <button type="submit">Update this quiz</button>
+    </form>
+    <form action="/delete" method="POST">
+      <input type="hidden" name="id" value="{{ id }}">
+      <button type="submit">Delete this quiz</button>
+    </form>
   </div>
-</div>
+  {% endif %}
 {% endblock %}
 
 

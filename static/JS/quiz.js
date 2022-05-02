@@ -13,6 +13,6 @@ function disableAnswers(){
 }
 
 function disableButton(){
-  btn = document.getElementById('go-to-main')
+  btn = document.getElementById('disable')
   btn.style.pointerEvents = 'none'
 }
