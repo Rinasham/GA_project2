@@ -18,9 +18,9 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'This is the secret key for session.')
 app = Flask(__name__)
 app.config['SECRET_KEY'] = SECRET_KEY
 
-
+##--------gloval vals -------------------
 page = ''
-
+category_list = ['linux', 'network', 'computer', 'database', 'html', 'css', 'javascript', 'python', 'git']
 
 #----------------------------- Authentication -----------------------------------
 
@@ -301,6 +301,18 @@ def show_answers():
     return render_template('finish.html', QandA_list = QandA_list, page=page)
 
 
+
+#----------------------------- quiz request -----------------------------------
+
+@app.route('/quiz_request')
+def show_request():
+    return render_template('quiz-request.html', category_list=category_list, options=options_list)
+
+@app.route('/quiz_request', methods=['POST'])
+def save_request():
+    text = 'We received your request. Thank you for your idea!'
+    return render_template('success.html', text=text)
+
 #----------------------------- admin -----------------------------------
 
 @app.route('/admin')
@@ -317,7 +329,7 @@ def show_admin():
         # if the password is correct, set user-id to session
         if is_admin:
             print('This user is admin.')
-            category_list = ['linux', 'network', 'computer', 'database', 'html', 'css', 'javascript', 'python', 'git']
+
             return render_template('admin.html', category_list = category_list)
 
         else:
@@ -378,6 +390,7 @@ def add_quiz():
 
 @app.route('/account')
 def show_account():
+    init_quiz()
     userID = session.get('user_id')
     print(userID)
     return render_template('account.html')
@@ -394,7 +407,9 @@ def error500(error):
     return render_template('error/error500.html')
 
 
-
+@app.route('/error')
+def errortest():
+    return render_template('success-fail/success.html')
 
 
 if __name__ == '__main__':
