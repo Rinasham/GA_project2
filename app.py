@@ -191,7 +191,7 @@ def quiz_main(categoryName):
     for item in list:
         quiz_list.append(item)
 
-    print(f'the length of the quiz_list is {len(quiz_list)} in /quiz')
+    print(f'the length of the quiz_list is {len(quiz_list)} in /quiz and quiz count is {quiz_count}')
 
     return redirect('/progress')
 
@@ -219,7 +219,7 @@ def handle_quiz():
 
     page = 'quiz'
     if quiz_count > 0:
-        print(f'the length of the quiz_list is {len(quiz_list)} in /progress[GET]')
+        print(f'the length of the quiz_list is {len(quiz_list)} in /progress[GET] and quiz count is {quiz_count}')
         next_quiz = quiz_list[quiz_count -1] # obj
         current_quiz_answer = next_quiz['correct_answer']
         # next_quiz.pop()
@@ -241,8 +241,6 @@ def handle_quiz():
 @app.route('/progress', methods=['POST'])
 def check_answer():
     global correct_count
-    reqID = request.form.get('quiz-id')
-    print(reqID)
     chosen_answer = request.form.get('chosen-answer')
 
     # check whether the chosen answer was correct
@@ -250,7 +248,7 @@ def check_answer():
     if checked_answer == True:
         correct_count += 1
     print('correct count is ' + str(correct_count))
-    print(f'the length of the quiz_list is {len(quiz_list)} in /progress[POST]')
+    print(f'the length of the quiz_list is {len(quiz_list)} in /progress[POST] and quiz count is {quiz_count}')
     return redirect('/progress')
 
 
