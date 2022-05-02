@@ -139,6 +139,7 @@ def index():
     global page
     page = 'top'
     init_quiz()
+    print(f'the length of the quiz_list is {len(quiz_list)}')
     userId = session.get('user_id')
     if userId != None:
         user = get_name(userId)
@@ -216,7 +217,6 @@ def handle_quiz():
 
     page = 'quiz'
     if quiz_count > 0:
-        print(len(quiz_list))
         next_quiz = quiz_list[quiz_count -1] # obj
         current_quiz_answer = next_quiz['correct_answer']
         # next_quiz.pop()
