@@ -251,6 +251,7 @@ def check_answer():
     if checked_answer == True:
         correct_count += 1
     print('correct count is ' + str(correct_count))
+    print(f'the length of the quiz_list is {len(quiz_list)}')
     return redirect('/progress')
 
 
