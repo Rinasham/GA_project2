@@ -183,6 +183,9 @@ def quiz_main(categoryName):
     global current_category
     current_category = categoryName
 
+    global quiz_list
+    print(f'the length of the quiz_list is {len(quiz_list)}')
+
     # url = f'http://localhost:3000/quiz/{categoryName}'
     url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
     res = requests.get(url).json() # list
