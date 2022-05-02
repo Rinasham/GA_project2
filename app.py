@@ -1,3 +1,4 @@
+
 import psycopg2
 from flask import Flask, request, redirect, render_template, session, flash
 import requests
@@ -310,8 +311,36 @@ def show_request():
 
 @app.route('/quiz_request', methods=['POST'])
 def save_request():
-    text = 'We received your request. Thank you for your idea!'
-    return render_template('success.html', text=text)
+    question = request.form.get('question')
+    answer_a = request.form.get('answer_a')
+    answer_b = request.form.get('answer_b')
+    answer_c = request.form.get('answer_c')
+    answer_d = request.form.get('answer_d')
+    correct_answer = request.form.get('correct-answer')
+    category = request.form.get('category')
+    print(question, answer_a, answer_b, answer_c, answer_d, correct_answer, category)
+
+    # insert the game data into result table
+    conn, cur = connectToDB()
+    try:
+        cur.execute(f"INSERT INTO requests(question, answer_a, answer_b, answer_c, answer_d, correct_answer, category) VALUES(%s,%s,%s,%s,%s,%s,%s)",
+                    (question, answer_a, answer_b, answer_c, answer_d, correct_answer, category))
+        conn.commit()
+        print('Successfully inserted new request into requests table.')
+        text = 'We received your request. Thank you for your idea!'
+        return render_template('success-fail/success.html', text=text)
+
+    except  (Exception, psycopg2.Error) as error:
+        if (conn):
+            print("Failed to insert new request into requests table.", error)
+            text = 'There was an error. Please try again.'
+            return render_template('success-fail/fail.html', text=text)
+
+    finally:
+        if (conn):
+            closeDB(conn,cur)
+
+
 
 #----------------------------- admin -----------------------------------
 

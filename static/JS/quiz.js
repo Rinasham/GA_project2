@@ -11,3 +11,8 @@ function disableAnswers(){
     answers[i].style.pointerEvents = 'none'
   }
 }
+
+function disableButton(){
+  btn = document.getElementById('go-to-main')
+  btn.style.pointerEvents = 'none'
+}
