@@ -216,6 +216,7 @@ def handle_quiz():
 
     page = 'quiz'
     if quiz_count > 0:
+        print(len(quiz_list))
         next_quiz = quiz_list[quiz_count -1] # obj
         current_quiz_answer = next_quiz['correct_answer']
         # next_quiz.pop()
