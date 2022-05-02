@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/error.css') }}">
+  <title>request</title>
+</head>
+<body>
+  <main>
+    <h1>quiz request</h1>
+      <form action="/quiz_request" method="POST" id="request-form">
+        <div class="flex-items">
+          <div class="title"><label for="question">question</label></div>
+          <input type="text" placeholder="question" id="question" name="question">
+        </div>
+        <div class="flex-items">
+          <div class="title">
+            <p>answer options</p>
+          </div>
+          <div id="options">
+            <input type="text" name="answer_a" placeholder="option a">
+            <input type="text" name="answer_b" placeholder="option b">
+            <input type="text" name="answer_c" placeholder="option c">
+            <input type="text" name="answer_d" placeholder="option d">
+          </div>
+        </div>
+        <div class="flex-items">
+          <div class="title"><p>correct answer</p></div>
+          <div id="correct-ans">
+            {% for option in options %}
+              <input type="radio" name="correct-answer" id="{{ option }}" value="{{ option }}">
+              <label for="{{ option }}">{{ option }}</label>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="flex-items">
+          <div class="title"><p>category</p></div>
+          <div id="category">
+            {% for category in category_list %}
+              <div>
+                <input type="radio" id="{{ category }}" class="categories" name="category" value="{{ category }}">
+                <label for="{{ category }}">{{ category }}</label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div id="btn-wrapper"><button type="submit">SEND QUIZ REQUEST</button></div>
+      </form>
+      <p id="go-to-main"><a href="{{ url_for('index') }}">Go back to top page</a></p>
+
+  </main>
+  <footer>
+    <p>copyright 2022 RINA</p>
+  </footer>
+</body>
+</html>

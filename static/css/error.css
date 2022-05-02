@@ -18,9 +18,13 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
 }
 
 
+main {
+  width: 80%;
+}
 
 
 
@@ -50,10 +54,20 @@ footer {
 
 
 /* ---- form ----- */
-/* 
-h1 {
-  margin-bottom: 50px;
+
+.flex-items {
+  display: flex;
+  width: 100%;
+  margin: 12px;
 }
+
+.title {
+  display: flex;
+  justify-content: flex-start;
+  width: 20%;
+  align-items: center;
+}
+
 
 input {
   display: block;
@@ -69,10 +83,33 @@ input:focus, textarea:focus {
   outline: 0;
 }
 
+::placeholder {
+  color: #fff;
+}
+
 form {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+#request-form {
+  justify-content: start;
+  align-items: flex-start;
+  width: 90%;
+  margin: auto;
+}
+
+#question {
+  width: 100%;
+}
+
+#options {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
 }
 
 button {
@@ -84,4 +121,75 @@ button {
   background-color: #A66D60;
   opacity: 80%;
   color: #fff;
-} */
+}
+
+#btn-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+#btn-wrapper > button {
+  margin: 10px;
+}
+
+#correct-ans {
+  width: 100%;
+}
+
+#category, #correct-ans{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#category > div {
+  display: flex;
+  align-items: baseline;
+}
+
+.categories, #correct-ans > input {
+  margin-right: 3px;
+}
+
+#category > div > label, #correct-ans > label{
+  margin: 0 7px;
+}
+
+#category > div > label:hover, #correct-ans > p:hover {
+  color:#8C323A;
+}
+
+
+
+
+/* a tag to go back to main */
+#btn {
+  display: flex;
+  justify-content: center;
+  margin: 5em;
+  font-size: 23px;
+}
+/* in request page */
+#go-to-main {
+  display: flex;
+  justify-content: center;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  width: 15em;
+  text-align: center;
+  display: block;
+  /* padding-top: 0.7em; */
+  border-bottom: 0;
+  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
+  border-style: solid;
+  /* border-top: 3px solid white; */
+}
+
+a:hover {
+  color:  #8C323A;
+}
+
