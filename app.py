@@ -139,7 +139,7 @@ def index():
     global page
     page = 'top'
     init_quiz()
-    print(f'the length of the quiz_list is {len(quiz_list)}')
+    print(f'the length of the quiz_list is {len(quiz_list)} in /home')
     userId = session.get('user_id')
     if userId != None:
         user = get_name(userId)
@@ -174,17 +174,14 @@ def quiz_top():
     global page
     page = 'quiz'
 
-
     return render_template('quiz-start.html', page=page)
 
 
 @app.route('/quiz/<categoryName>')
 def quiz_main(categoryName):
+    global quiz_list
     global current_category
     current_category = categoryName
-
-    global quiz_list
-    print(f'the length of the quiz_list is {len(quiz_list)}')
 
     # url = f'http://localhost:3000/quiz/{categoryName}'
     url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
@@ -193,6 +190,8 @@ def quiz_main(categoryName):
     list = random.sample(res, 10)
     for item in list:
         quiz_list.append(item)
+
+    print(f'the length of the quiz_list is {len(quiz_list)} in /quiz')
 
     return redirect('/progress')
 
@@ -220,7 +219,7 @@ def handle_quiz():
 
     page = 'quiz'
     if quiz_count > 0:
-        print(f'the length of the quiz_list is {len(quiz_list)}')
+        print(f'the length of the quiz_list is {len(quiz_list)} in /progress[GET]')
         next_quiz = quiz_list[quiz_count -1] # obj
         current_quiz_answer = next_quiz['correct_answer']
         # next_quiz.pop()
@@ -251,7 +250,7 @@ def check_answer():
     if checked_answer == True:
         correct_count += 1
     print('correct count is ' + str(correct_count))
-    print(f'the length of the quiz_list is {len(quiz_list)}')
+    print(f'the length of the quiz_list is {len(quiz_list)} in /progress[POST]')
     return redirect('/progress')
 
 
