@@ -224,7 +224,7 @@ def quiz_main(categoryName):
             quiz.append(index +1)
             quizzes_list.append(quiz)
 
-        cur.execute(f"INSERT INTO games(player_id, correct_count, category, quiz_count) VALUES({userID}, 0, '{categoryName}', 1) RETURNING id;")
+        cur.execute(f"INSERT INTO games(player_id, correct_count, category) VALUES({userID}, 0, '{categoryName}') RETURNING id;")
         conn.commit()
         game_id = cur.fetchone()[0]
         session['game_id'] = game_id
