@@ -453,7 +453,7 @@ def update_quiz():
     answer_b = request.form.get('answer_b')
     answer_c = request.form.get('answer_c')
     answer_d = request.form.get('answer_d')
-    correct_answer = request.form.get('correct_answer')
+    correct_answer = request.form.get('correct-answer')
     category = request.form.get('category')
 
     data = {
@@ -466,21 +466,20 @@ def update_quiz():
         'correct_answer' : correct_answer,
         'category' : category
     }
+    print(data)
+    url = f'http://localhost:3000/update'
+    # url = f'https://project2-node-express.herokuapp.com/update'
 
-    # url = f'http://localhost:3000/update'
-    # # url = f'https://project2-node-express.herokuapp.com/update'
+    res = requests.put(url = url, data = data)
 
-    # res = requests.put(url = url, data = data)
+    if res.status_code == 200:
+        print('Status code 200')
+        text = 'Successfully updated quiz'
+        return render_template('success-fail/success.html', text=text)
+    else:
+        text = 'Unfortunately we could not update data.'
+        return render_template('success-fail/fail.html', text=text)
 
-    # if res.status_code == 200:
-    #     print('Status code 200')
-    #     text = 'Successfully updated quiz'
-    #     return render_template('success-fail/success.html', text=text)
-    # else:
-    #     text = 'Unfortunately we could not update data.'
-    #     return render_template('success-fail/fail.html', text=text)
-
-    return 'ok'
 
 
 
