@@ -8,10 +8,12 @@
   <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/error.css') }}">
 </head>
 <body>
-  <form action="/delete" method="POST">
-    <input type="hidden" name="id" value="{{ id }}">
-    <button type="submit" id="disable">DELETE</button>
-  </form>
-  <script src="{{ url_for('static',filename='JS/quiz.js') }}"></script>
+  <div class="flex-column">
+    <h1>Are you sure you want to delete this quiz?</h1>
+    <form action="/delete" method="POST">
+      <input type="hidden" name="id" value="{{ id }}">
+      <button type="submit">Yes</button>
+    </form>
+  </div>
 </body>
 </html>
