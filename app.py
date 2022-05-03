@@ -193,12 +193,61 @@ def quiz_main(categoryName):
     # insert a game into games table
     conn, cur = connectToDB()
     try:
-        cur.execute(f"INSERT INTO games(player_id, correct_count, category, quiz_count) VALUES({userID}, 0, '{categoryName}', 10) RETURNING id;")
+    ##########################################################
+        # url = f'http://localhost:3000/quiz/{categoryName}'
+        url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
+    ##########################################################
+
+        foundQuiz = requests.get(url).json() # obj -> list
+        list = random.sample(foundQuiz, 10)
+        print(len(list))
+        quizzes_list = []
+        for index, item in enumerate(list):
+            quiz = []
+            quizID = item['_id']
+            question = item['question']
+            answers = item['answers']
+            answer_a = answers['a']
+            answer_b = answers['b']
+            answer_c = answers['c']
+            answer_d = answers['d']
+            correct_answer = item['correct_answer']
+            answer_text = answers[correct_answer]
+            quiz.append(quizID)
+            quiz.append(question)
+            quiz.append(answer_a)
+            quiz.append(answer_b)
+            quiz.append(answer_c)
+            quiz.append(answer_d)
+            quiz.append(correct_answer)
+            quiz.append(answer_text)
+            quiz.append(index +1)
+            quizzes_list.append(quiz)
+
+        cur.execute(f"INSERT INTO games(player_id, correct_count, category, quiz_count) VALUES({userID}, 0, '{categoryName}', 1) RETURNING id;")
         conn.commit()
         game_id = cur.fetchone()[0]
         session['game_id'] = game_id
-        print('Successfully inserted new game data into table.')
-        print(f'DBから取得したgame idは{game_id}')
+
+#-------------- insert 10 quizzes ------------------
+        conn, cur = connectToDB()
+        try:
+            for item in quizzes_list:
+                cur.execute(f"""
+                            INSERT INTO each_game(player_id, game_id, quiz_id, question,answer_a,answer_b,answer_c,answer_d, correct_answer, answer_text, quiz_count) VALUES
+                            ({userID},{game_id},'{item[0]}','{item[1]}','{item[2]}','{item[3]}','{item[4]}','{item[5]}','{item[6]}','{item[7]}', '{item[8]}')
+                            """);
+            conn.commit()
+            print('Successfully inserted data.')
+            session['count'] = 1
+        except  (Exception, psycopg2.Error) as error:
+            if (conn):
+                print("Failed to insert data.", error)
+                return 'ng'
+
+        finally:
+            if (conn):
+                closeDB(conn,cur)
 
     except  (Exception, psycopg2.Error) as error:
         if (conn):
@@ -210,7 +259,7 @@ def quiz_main(categoryName):
             closeDB(conn,cur)
 
     return redirect('/progress')
-    return 'ok'
+
 
 
 
@@ -233,46 +282,27 @@ def handle_quiz():
 
     userID = session.get('user_id')
     game_id = session.get('game_id')
-    results = fetchData(f'SELECT category, quiz_count FROM games WHERE id={game_id}')
-    categoryName = results[0]
-    quiz_count = results[1]
+    count = session.get('count')
 
     if userID == None:
         return redirect('/')
 
-    print('quiz_count: ' + str(quiz_count))
-    if quiz_count > 0:
-    ##########################################################
-        url = f'http://localhost:3000/quiz/{categoryName}'
-        # url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
-    ##########################################################
-
-        foundQuiz = requests.get(url).json() # obj
-
-        quizID = foundQuiz['_id']
-        question = foundQuiz['question']
-        answers = foundQuiz['answers']
-        correct_answer = foundQuiz['correct_answer']
-        answer_text = answers[correct_answer]
-
+    if count < 11:
+        print(f'game_idは{game_id}, quiz_countは{count}')
+        get_quiz = fetchData(f"SELECT * FROM each_game WHERE game_id='{game_id}' and quiz_count={count}")
         next_quiz = {
-            'id' : quizID,
-            'question' : question,
-            'answers' : answers,
+            'id' : get_quiz[3],
+            'question' : get_quiz[4],
+            'answers' : {
+                'a': get_quiz[8],
+                'b': get_quiz[9],
+                'c': get_quiz[10],
+                'd': get_quiz[11],
+                }
         }
-        insert = insertData(
-            f"""
-            INSERT INTO each_game(player_id, game_id, quiz_id, question, correct_answer, answer_text) VALUES
-            ({userID},{game_id},'{quizID}','{question}','{correct_answer}','{answer_text}');
-            """
-            )
 
-        if insert:
-            is_admin = session.get('is_admin')
-            return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page, is_admin=is_admin)
-        else:
-            text = 'Sorry, we counlt not insert data.'
-            return render_template('success-fail/fail.html', text=text)
+        is_admin = session.get('is_admin')
+        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page, is_admin=is_admin)
     else:
         return redirect('/finish')
 
@@ -284,19 +314,19 @@ def handle_quiz():
 def check_answer():
     chosen_answer = request.form.get('chosen-answer')
     game_id = session.get('game_id')
+    count = session.get('count')
 
     #get data from DB
-    results = fetchData(f'SELECT correct_count, quiz_count FROM games Where id={game_id}')
-    correct_count = results[0]
-    quiz_count = results[1]
-    current_quiz_answer = fetchData(f'SELECT correct_answer FROM each_game WHERE game_id={game_id} ORDER BY inserted_at DESC')[0]
+    correct_count = fetchData(f'SELECT correct_count FROM games Where id={game_id}')[0]
+
+    current_quiz_answer = fetchData(f'SELECT correct_answer FROM each_game WHERE game_id={game_id} AND quiz_count={count}')[0]
     print(current_quiz_answer, chosen_answer)
     # check whether the chosen answer was correct
     checked_answer = check(current_quiz_answer, chosen_answer)
     print(checked_answer)
     if checked_answer == True:
         updateData(f'UPDATE games set correct_count = {correct_count +1} WHERE id={game_id}')
-    updateData(f'UPDATE games set quiz_count = {quiz_count -1} WHERE id={game_id}')
+    session['count'] += 1
     correct_count = fetchData(f'SELECT correct_count FROM games Where id={game_id}')[0]
     print(str(correct_count) + ' : correct_count')
 
@@ -392,8 +422,8 @@ def add_quiz():
 
     # send
 ##########################################################
-    url = 'http://localhost:3000/add-quiz'
-    # url = 'https://project2-node-express.herokuapp.com/add-quiz'
+    # url = 'http://localhost:3000/add-quiz'
+    url = 'https://project2-node-express.herokuapp.com/add-quiz'
 ##########################################################
 
     data = {
@@ -427,8 +457,8 @@ def show_update(id):
     ## if admin == True, allow to access to the update page
     if is_admin == True:
         ##########################################################
-        url = f'http://localhost:3000/get/{id}'
-        # url = f'https://project2-node-express.herokuapp.com/get/{id}'
+        # url = f'http://localhost:3000/get/{id}'
+        url = f'https://project2-node-express.herokuapp.com/get/{id}'
         ##########################################################
         res = requests.get(url).json() # list
         print(res)
@@ -480,8 +510,8 @@ def update_quiz():
     }
 
 ##########################################################
-    url = f'http://localhost:3000/update'
-    # url = f'https://project2-node-express.herokuapp.com/update'
+    # url = f'http://localhost:3000/update'
+    url = f'https://project2-node-express.herokuapp.com/update'
 ##########################################################
 
     res = requests.put(url = url, data = data)
@@ -520,8 +550,8 @@ def delete_quiz():
     reqID = request.form.get('id')
     print(reqID)
 ##########################################################
-    url = f'http://localhost:3000/delete/{reqID}'
-    # url = f'https://project2-node-express.herokuapp.com/delete/{reqID}'
+    # url = f'http://localhost:3000/delete/{reqID}'
+    url = f'https://project2-node-express.herokuapp.com/delete/{reqID}'
 ##########################################################
 
     res = requests.delete(url = url)
