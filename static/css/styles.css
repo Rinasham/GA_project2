@@ -361,9 +361,7 @@ button {
 
 #admin-btn {
   display: flex;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
-#admin-btn > p {
-  margin-bottom: 10px;
-  width: auto;
-}
