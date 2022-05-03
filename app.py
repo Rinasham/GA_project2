@@ -186,8 +186,8 @@ def quiz_main(categoryName):
     global current_category
     current_category = categoryName
 
-    url = f'http://localhost:3000/quiz/{categoryName}'
-    # url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
+    # url = f'http://localhost:3000/quiz/{categoryName}'
+    url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
     res = requests.get(url).json() # list
 
     list = random.sample(res, 10)
@@ -419,8 +419,8 @@ def add_quiz():
 
 @app.route('/update/<id>')
 def show_update(id):
-    url = f'http://localhost:3000/get/{id}'
-    # url = f'https://project2-node-express.herokuapp.com/get/{id}'
+    # url = f'http://localhost:3000/get/{id}'
+    url = f'https://project2-node-express.herokuapp.com/get/{id}'
     res = requests.get(url).json() # list
     print(res)
 
@@ -467,8 +467,8 @@ def update_quiz():
         'category' : category
     }
     print(data)
-    url = f'http://localhost:3000/update'
-    # url = f'https://project2-node-express.herokuapp.com/update'
+    # url = f'http://localhost:3000/update'
+    url = f'https://project2-node-express.herokuapp.com/update'
 
     res = requests.put(url = url, data = data)
 
