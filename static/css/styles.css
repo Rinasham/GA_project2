@@ -363,7 +363,7 @@ button {
   display: flex;
 }
 
-#admin-btn > form > button {
+#admin-btn > p {
   margin-bottom: 10px;
   width: auto;
 }

@@ -186,8 +186,8 @@ def quiz_main(categoryName):
     global current_category
     current_category = categoryName
 
-    # url = f'http://localhost:3000/quiz/{categoryName}'
-    url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
+    url = f'http://localhost:3000/quiz/{categoryName}'
+    # url = f'https://project2-node-express.herokuapp.com/quiz/{categoryName}'
     res = requests.get(url).json() # list
 
     list = random.sample(res, 10)
@@ -414,20 +414,13 @@ def add_quiz():
     return redirect('/')
 
 
-@app.route('/update')
-def show_update():
-    reqID = request.form.get('id')
-    print(reqID)
-    return render_template('admin/update.html', id=reqID)
 
+#---------------- update ----------------------
 
-@app.route('/update', methods=['POST'])
-def update_quiz():
-    reqID = request.form.get('id')
-    print(f'requested id is {reqID}')
-
-    url = f'http://localhost:3000/get/{reqID}'
-    # url = f'https://project2-node-express.herokuapp.com/get/{reqID}'
+@app.route('/update/<id>')
+def show_update(id):
+    url = f'http://localhost:3000/get/{id}'
+    # url = f'https://project2-node-express.herokuapp.com/get/{id}'
     res = requests.get(url).json() # list
     print(res)
 
@@ -442,12 +435,56 @@ def update_quiz():
             'correct_answer' : res['correct_answer'],
             'category' : res['category']
         }
+        print(data['id'])
+
         return render_template('admin/update.html', data=data, options=options_list, category_list=category_list)
     else:
-        text = 'Unfortunately we could not get data from API.'
+        text = 'Unfortunately we could not get data.'
         return render_template('success-fail/fail.html', text=text)
 
 
+
+@app.route('/update', methods=['POST'])
+def update_quiz():
+    reqID = request.form.get('id')
+    print(f'requested id is {reqID}')
+    question = request.form.get('question')
+    answer_a = request.form.get('answer_a')
+    answer_b = request.form.get('answer_b')
+    answer_c = request.form.get('answer_c')
+    answer_d = request.form.get('answer_d')
+    correct_answer = request.form.get('correct_answer')
+    category = request.form.get('category')
+
+    data = {
+        'id' : reqID,
+        'question': question,
+        'answer_a' : answer_a,
+        'answer_b' : answer_b,
+        'answer_c' : answer_c,
+        'answer_d': answer_d,
+        'correct_answer' : correct_answer,
+        'category' : category
+    }
+
+    # url = f'http://localhost:3000/update'
+    # # url = f'https://project2-node-express.herokuapp.com/update'
+
+    # res = requests.put(url = url, data = data)
+
+    # if res.status_code == 200:
+    #     print('Status code 200')
+    #     text = 'Successfully updated quiz'
+    #     return render_template('success-fail/success.html', text=text)
+    # else:
+    #     text = 'Unfortunately we could not update data.'
+    #     return render_template('success-fail/fail.html', text=text)
+
+    return 'ok'
+
+
+
+#-------------- delete --------------------------
 
 @app.route('/delete')
 def show_delete():

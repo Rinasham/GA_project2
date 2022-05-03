@@ -21,14 +21,9 @@
   </div>
   {% if is_admin == True %}
   <div id="admin-btn">
-    <form action="/update" method="POST">
-      <input type="hidden" name="id" value="{{ quiz['id'] }}">
-      <button type="submit">Update this quiz</button>
-    </form>
-    <form action="/delete" method="POST">
-      <input type="hidden" name="id" value="{{ id }}">
-      <button type="submit">Delete this quiz</button>
-    </form>
+    <p>{{ quiz['id'] }}</p>
+      <p><a href="/update/{{ quiz['id'] }}">Update this quiz</a></p>
+      <p><a href="/delete/{{ quiz['id'] }}">Delete this quiz</a></p>
   </div>
   {% endif %}
 {% endblock %}
