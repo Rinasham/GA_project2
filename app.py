@@ -289,13 +289,16 @@ def check_answer():
     results = fetchData(f'SELECT correct_count, quiz_count FROM games Where id={game_id}')
     correct_count = results[0]
     quiz_count = results[1]
-    current_quiz_answer = fetchData(f'SELECT answer_text FROM each_game WHERE id={game_id}')
-
+    current_quiz_answer = fetchData(f'SELECT correct_answer FROM each_game WHERE game_id={game_id} ORDER BY inserted_at DESC')[0]
+    print(current_quiz_answer, chosen_answer)
     # check whether the chosen answer was correct
     checked_answer = check(current_quiz_answer, chosen_answer)
+    print(checked_answer)
     if checked_answer == True:
         updateData(f'UPDATE games set correct_count = {correct_count +1} WHERE id={game_id}')
     updateData(f'UPDATE games set quiz_count = {quiz_count -1} WHERE id={game_id}')
+    correct_count = fetchData(f'SELECT correct_count FROM games Where id={game_id}')[0]
+    print(str(correct_count) + ' : correct_count')
 
     return redirect('/progress')
 
@@ -338,7 +341,7 @@ def save_request():
     answer_d = request.form.get('answer_d')
     correct_answer = request.form.get('correct-answer')
     category = request.form.get('category')
-    print(question, answer_a, answer_b, answer_c, answer_d, correct_answer, category)
+    print(question, answer_a, answer_b, answer_c, answer_d, correct_answer, correct_answer, category)
 
     # insert the game data into result table
     conn, cur = connectToDB()
