@@ -31,22 +31,22 @@
             <li><a href="{{ url_for('show_signup') }}">Sign up</a></li>
             <li><a href="{{ url_for('show_login')}}">Log in</a></li>
           {% else %}
-          <li><a href="{{ url_for('show_account') }}">Account</a></li>
+            <li><a href="{{ url_for('show_account') }}">Account</a></li>
             <li><a href="{{ url_for('logout')}}">Log out</a></li>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            {% if page != 'quiz' %}
+              <li><a href="{{ url_for('quiz_top') }}">Quiz</a></li>
+            {% endif %}
+            <li><a href="{{ url_for('showContact') }}">Contact</a></li>
+            <li><a href="{{ url_for('show_request') }}">Your idea</a></li>
+            <li><a href="{{ url_for('showAbout') }}">About</a></li>
           {% endif %}
-          <li><a href="{{ url_for('index') }}">Home</a></li>
-          {% if page != 'quiz' %}
-          <li><a href="{{ url_for('quiz_top') }}">Quiz</a></li>
-          {% endif %}
-          <li><a href="{{ url_for('showContact') }}">Contact</a></li>
-          <li><a href="{{ url_for('show_request') }}">Your idea</a></li>
-          <li><a href="{{ url_for('showAbout') }}">About</a></li>
         </ul>
       </div>
       <p class="wavy"></p>
       <div id="line3">
         {% if user == None %}
-          <p>Signed in as a guest</p>
+          <p>Please sign up or log in</p>
         {% else %}
           <p>Welcome {{ user }}</p>
         {% endif %}
