@@ -177,6 +177,9 @@ current_category = ''
 def quiz_top():
     global page
     page = 'quiz'
+    userID = session.get('user_id')
+    if userID == None:
+        return redirect('/')
 
     return render_template('quiz-start.html', page=page)
 
@@ -184,6 +187,8 @@ def quiz_top():
 @app.route('/quiz/<categoryName>')
 def quiz_main(categoryName):
     userID = session.get('user_id')
+    if userID == None:
+        return redirect('/')
 
     # insert a game into games table
     conn, cur = connectToDB()
@@ -205,6 +210,7 @@ def quiz_main(categoryName):
             closeDB(conn,cur)
 
     return redirect('/progress')
+    return 'ok'
 
 
 
@@ -230,6 +236,10 @@ def handle_quiz():
     results = fetchData(f'SELECT category, quiz_count FROM games WHERE id={game_id}')
     categoryName = results[0]
     quiz_count = results[1]
+
+    if userID == None:
+        return redirect('/')
+
     print('quiz_count: ' + str(quiz_count))
     if quiz_count > 0:
     ##########################################################
