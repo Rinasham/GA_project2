@@ -28,7 +28,7 @@ category_list = ['linux', 'network', 'computer', 'database', 'html', 'css', 'jav
 
 @app.route('/signup')
 def show_signup():
-    return render_template('/signup.html')
+    return render_template('registartion/signup.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
@@ -67,7 +67,7 @@ def signup():
 
 @app.route('/login')
 def show_login():
-    return render_template('/login.html')
+    return render_template('registration/login.html')
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -158,6 +158,27 @@ def showContact():
     page = 'contact'
     # init_quiz()
     return render_template('contact.html', page='contact')
+
+
+@app.route('/contact', methods=['POST'])
+def saveContact():
+    # if request.method == 'POST':
+    userID = session.get('user_id')
+    name = request.form.get('userName')
+    email = request.form.get('userEmail')
+    phone_num = request.form.get('userTel')
+    message = request.form.get('userMessage')
+    print(userID, name, email, ' phone: ' +phone_num)
+    message = message.strip()
+    print(message)
+
+    # flash for empty input
+    if name =='' or email =='' or message =='':
+        return render_template('contact.html', name=name, email=email, phone_num=phone_num, message=message)
+
+    text = 'We received your message. Thank you!'
+    return render_template('success-fail/success.html', text=text)
+
 
 
 @app.route('/about')

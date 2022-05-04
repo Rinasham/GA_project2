@@ -6,11 +6,32 @@
 <div id="contact">
   <h1>CONTACT US</h1>
   <form action="/contact" method="POST">
-    <input type="text" placeholder="Your name" name="userName">
-    <input type="email" placeholder="Your email" name="userEmail">
-    <input type="tel" placeholder="Your phone" name="userTel">
-    <textarea name="userMessage" id="" cols="30" rows="5" placeholder="message"></textarea>
+    <input type="text" placeholder="Your name" name="userName"
+    {% if name != '' %}
+    value= {{ name }}
+    {% endif %}
+    >
+
+    <input type="email" placeholder="Your email" name="userEmail"
+    {% if email != '' %}
+    value= {{ email }}
+    {% endif %}
+    >
+
+    <input type="tel" placeholder="Your phone (optional)" name="userTel"
+    {% if phone_num != '' %}
+    value= {{ phone_num }}
+    {% endif %}
+    >
+
+    <textarea name="userMessage" id="text-box"" cols="30" rows="5" placeholder="message">
+      {% if message != '' %}
+      {{ message }}
+      {% endif %}
+    </textarea>
     <div><button type="submit">SEND MESSAGE</button></div>
   </form>
 </div>
 {% endblock %}
+
+
