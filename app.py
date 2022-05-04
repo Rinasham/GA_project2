@@ -122,20 +122,7 @@ def logout():
 
 
 
-#----------------------------------------------------------------
-
-# def init_quiz():
-#     global quiz_list
-#     global quiz_count
-#     global correct_count
-#     global QandA_list
-
-#     quiz_list = []
-#     QandA_list = []
-#     quiz_count = 10
-#     correct_count = 0
-
-#--------------------------------
+#------------------------------- main --------------------------------------
 
 
 @app.route('/')
@@ -162,22 +149,32 @@ def showContact():
 
 @app.route('/contact', methods=['POST'])
 def saveContact():
-    # if request.method == 'POST':
-    userID = session.get('user_id')
     name = request.form.get('userName')
     email = request.form.get('userEmail')
     phone_num = request.form.get('userTel')
     message = request.form.get('userMessage')
-    print(userID, name, email, ' phone: ' +phone_num)
+    # remove white space from the message text
     message = message.strip()
-    print(message)
 
-    # flash for empty input
+    # if any of the required column is empty, prompt the user to fill it in
     if name =='' or email =='' or message =='':
         return render_template('contact.html', name=name, email=email, phone_num=phone_num, message=message)
-
-    text = 'We received your message. Thank you!'
-    return render_template('success-fail/success.html', text=text)
+    else:
+        userID = session.get('user_id')
+        print(userID)
+        if userID != None:
+            if phone_num != '':
+                insert = insertData(f"INSERT INTO contacts(user_id, name, email, phone_number, message) VALUES({userID},'{name}','{email}','{phone_num}','{message}');")
+            else:
+                insert = insertData(f"INSERT INTO contacts(user_id, name, email, message) VALUES({userID}, '{name}', '{email}', '{message}');")
+            if insert:
+                text = 'We received your message. Thank you!'
+                return render_template('success-fail/success.html', text=text)
+            else:
+                text = 'Sorry, we could not save data. Please try again.'
+                return render_template('success-fail/fail.html', text=text)
+        else:
+            redirect('/')
 
 
 
