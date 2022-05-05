@@ -48,7 +48,7 @@
         {% if user == None %}
           <p>Please sign up or log in</p>
         {% else %}
-          <p>Welcome {{ user }}</p>
+        <p><a href="{{ url_for('show_account') }}">Welcome {{ user }}</a></p>
         {% endif %}
       </div>
       <p class="wavy"></p>

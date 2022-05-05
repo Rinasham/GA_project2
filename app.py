@@ -6,7 +6,7 @@ import requests
 import bcrypt
 ## ------------ other files --------------
 from db_settings import DB_URL, connectToDB, closeDB, fetchData, fetchAll, insertData, updateData
-from user import get_name, check_is_admin
+from user import get_user, check_is_admin
 from check_answer import check
 ## ------------ options --------------
 import random
@@ -131,11 +131,11 @@ def index():
     page = 'top'
     # init_quiz()
     userId = session.get('user_id')
-    if userId != None:
-        user = get_name(userId)
-    else:
-        user = None
-    return render_template('home.html', user=user, page=page)
+    if userId == None:
+        return render_template('home.html', user=None)
+    userID, userName = get_user(userId)
+
+    return render_template('home.html', user=userName, userID=userID, page=page)
 
 
 
@@ -143,8 +143,9 @@ def index():
 def showContact():
     global page
     page = 'contact'
-    # init_quiz()
-    return render_template('contact.html', page='contact')
+    userId = session.get('user_id')
+    userID, userName = get_user(userId)
+    return render_template('contact.html', user=userName, userID=userID, page='contact')
 
 
 @app.route('/contact', methods=['POST'])
@@ -155,13 +156,13 @@ def saveContact():
     message = request.form.get('userMessage')
     # remove white space from the message text
     message = message.strip()
+    userID = session.get('user_id')
 
     # if any of the required column is empty, prompt the user to fill it in
     if name =='' or email =='' or message =='':
-        return render_template('contact.html', name=name, email=email, phone_num=phone_num, message=message)
+        userID, userName = get_user(userID)
+        return render_template('contact.html', name=name, email=email, phone_num=phone_num, message=message, user=userName, userID=userID)
     else:
-        userID = session.get('user_id')
-        print(userID)
         if userID != None:
             if phone_num != '':
                 insert = insertData(f"INSERT INTO contacts(user_id, name, email, phone_number, message) VALUES({userID},'{name}','{email}','{phone_num}','{message}');")
@@ -182,8 +183,9 @@ def saveContact():
 def showAbout():
     global page
     page = 'about'
-    # init_quiz()
-    return render_template('about.html', page=page)
+    userId = session.get('user_id')
+    userID, userName = get_user(userId)
+    return render_template('about.html', user=userName, userID=userID, page=page)
 
 
 #----------------------------- API -----------------------------------
@@ -199,7 +201,8 @@ def quiz_top():
     if userID == None:
         return redirect('/')
 
-    return render_template('quiz-start.html', page=page)
+    userID, userName = get_user(userID)
+    return render_template('quiz-start.html', page=page, user=userName, userID=userID)
 
 
 @app.route('/quiz/<categoryName>')
@@ -261,8 +264,8 @@ def quiz_main(categoryName):
         except  (Exception, psycopg2.Error) as error:
             if (conn):
                 print("Failed to insert data.", error)
-                return 'ng'
-
+            text = 'Sorry we could not get data, please try again.'
+            return render_template('success-fail/fail.html', text=text)
         finally:
             if (conn):
                 closeDB(conn,cur)
@@ -304,6 +307,7 @@ def handle_quiz():
 
     if userID == None:
         return redirect('/')
+    userID, userName = get_user(userID)
 
     if count < 11:
         print(f'game_idは{game_id}, quiz_countは{count}')
@@ -320,7 +324,7 @@ def handle_quiz():
         }
 
         is_admin = session.get('is_admin')
-        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page, is_admin=is_admin)
+        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page, is_admin=is_admin, user=userName, userID=userID)
     else:
         return redirect('/finish')
 
@@ -358,6 +362,8 @@ def show_answers():
     global page
     page = 'quiz'
     game_id = session.get('game_id')
+    userId = session.get('user_id')
+    userID, userName = get_user(userId)
 
     # get all questions and correct answers of the game
     quiz_list = fetchAll(f'SELECT question, answer_text FROM each_game WHERE game_id={game_id}')
@@ -370,7 +376,8 @@ def show_answers():
         }
         QandA_list.append(obj)
 
-    return render_template('finish.html', QandA_list = QandA_list, page=page)
+    return render_template('finish.html', QandA_list = QandA_list, page=page, user=userName, userID=userID)
+
 
 
 
@@ -378,7 +385,11 @@ def show_answers():
 
 @app.route('/quiz_request')
 def show_request():
-    return render_template('quiz-request.html', category_list=category_list, options=options_list)
+    userId = session.get('user_id')
+    userID, userName = get_user(userId)
+    return render_template('quiz-request.html', category_list=category_list, options=options_list, user=userName, userID=userID)
+
+
 
 @app.route('/quiz_request', methods=['POST'])
 def save_request():
@@ -416,7 +427,6 @@ def save_request():
 
 @app.route('/admin')
 def show_admin():
-    # init_quiz()
     userID = session.get('user_id')
     print(userID)
     # check whether the user is admin
@@ -588,10 +598,11 @@ def delete_quiz():
 
 @app.route('/account')
 def show_account():
-    # init_quiz()
-    userID = session.get('user_id')
-    print(userID)
-    return render_template('account.html')
+    userid = session.get('user_id')
+    if userid == None:
+        return redirect('/')
+    userID, userName = get_user(userid)
+    return render_template('account.html', user=userName, userID=userID)
 
 
 #----------------------------- error handler -----------------------------------
