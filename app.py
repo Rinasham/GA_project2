@@ -1,11 +1,12 @@
 
+from distutils import core
 from unicodedata import category
 import psycopg2
 from flask import Flask, request, redirect, render_template, session, flash
 import requests
 import bcrypt
 ## ------------ other files --------------
-from db_settings import DB_URL, connectToDB, closeDB, fetchData, fetchAll, insertData, updateData
+from db_settings import DB_URL, connectToDB, closeDB, deleteData, fetchData, fetchAll, insertData, updateData
 from user import get_user, check_is_admin
 from check_answer import check
 ## ------------ options --------------
@@ -375,6 +376,20 @@ def show_answers():
             'answer' : item[1]
         }
         QandA_list.append(obj)
+    # insert record of the current game into histories table
+    data = fetchData(f"SELECT correct_count, category FROM games WHERE id={game_id}")
+    correct_count = data[0]
+    category = data[1]
+    print(correct_count, category)
+    insert = insertData(f"""
+                        INSERT INTO histories(player_id, correct_count, quiz_count, category) VALUES
+                        ({userID}, {correct_count}, 10, '{category}')
+                        """)
+    if insert == False:
+        text = 'Sorry it seems like there was an error.'
+        return render_template('success-fail/fail.html', text=text)
+    # delete data from each_game table
+    delete = deleteData(f"DELETE FROM each_game WHERE game_id = {game_id}")
 
     return render_template('finish.html', QandA_list = QandA_list, page=page, user=userName, userID=userID)
 
@@ -602,6 +617,8 @@ def show_account():
     if userid == None:
         return redirect('/')
     userID, userName = get_user(userid)
+    # get the number of quizzes the user has played
+    
     return render_template('account.html', user=userName, userID=userID)
 
 

@@ -92,3 +92,21 @@ def updateData(query):
     finally:
         if (conn):
             closeDB(conn,cur)
+
+
+def deleteData(query):
+    conn, cur = connectToDB()
+    try:
+        cur.execute(query)
+        conn.commit()
+        print('Successfully deleted data.')
+        return True
+
+    except  (Exception, psycopg2.Error) as error:
+        if (conn):
+            print("Failed to delete data", error)
+            return False
+
+    finally:
+        if (conn):
+            closeDB(conn,cur)
