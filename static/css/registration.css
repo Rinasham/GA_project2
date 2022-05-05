@@ -89,3 +89,18 @@ button {
 a, button, input {
  cursor: pointer;
 }
+
+a {
+  text-decoration: none;
+  color: white;
+  text-align: center;
+  display: block;
+  border-bottom: 0;
+  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
+  border-style: solid;
+}
+
+#go-to-main {
+  display: flex;
+  justify-content: center;
+}

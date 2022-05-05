@@ -195,7 +195,7 @@ def quiz_top():
     page = 'quiz'
     userID = session.get('user_id')
     if userID == None:
-        return redirect('/')
+        return redirect('/login')
 
     userID, userName = get_user(userID)
     return render_template('quiz-start.html', page=page, user=userName, userID=userID)
