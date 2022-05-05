@@ -1,0 +1,79 @@
+#profile {
+  width: 100%;
+  margin: 20px;
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  grid-template-rows: 20px 20px 1fr;
+  background-color: rgba(35,34,38,0.85);
+}
+
+.prof-p {
+  font-size: 15px;
+  /* margin: 0; */
+}
+
+#edit-btn {
+  grid-column: 1 / 3;
+  margin-top: 20px;
+}
+
+#edit-btn > button {
+  margin: 15px 0;
+}
+
+
+/* -------------------------------------------------------- */
+
+#records {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+}
+
+#distribution-byCategory, #correct-rate-byCategory {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  background-color: rgba(191,172,155,0.75);
+  padding:0 5px 10px 0;
+}
+
+h6 {
+  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
+  border-style: solid;
+  padding-bottom: 5px;
+}
+
+#records li {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  height: 20px;
+}
+
+.p {
+  height: 15px;
+}
+
+
+.bar {
+  height: 15px;
+  /* change width according to the win rate */
+  /* width: 70; */
+  margin-left: 15px;
+}
+
+#category-bar {
+  background-color: #4C7373;
+}
+#correct-bar {
+  background-color: #8C323A;
+}
+
+.percentage {
+  margin-left: 15px;
+  font-size: 13px;
+  margin-right: 5px;
+}

@@ -616,7 +616,10 @@ def show_account():
     userid = session.get('user_id')
     if userid == None:
         return redirect('/')
-    userID, userName = get_user(userid)
+    user = fetchData(f"SELECT id, email, name FROM users WHERE id={userid}")
+    userID = user[0]
+    email = user[1]
+    name = user[2]
     # get the number of quizzes the user has played
     game_counts_byCategory = fetchAll(f"SELECT category, sum(quiz_count) FROM histories WHERE player_id={userID} GROUP BY category;")
     correct_counts_byGame = fetchAll(f"SELECT category, sum(correct_count) FROM histories WHERE player_id={userID} GROUP BY category;")
@@ -625,22 +628,29 @@ def show_account():
     all_game_count *= 10
 
     # dictionary for percentages of each category played
-    game_percentage_dict = {}
+    game_percentage_list = []  #[{'nane' : category, 'percentage' : percentage}, {}...]
     # dictionary for percentages of correct quizzes at each category
-    correct_percentage_dict = {}
+    correct_percentage_list = []
+    item = {}
     for index, category in enumerate(game_counts_byCategory):
         percentage = math.floor((category[1] / all_game_count) * 100)
-        game_percentage_dict[category[0]] = percentage
+        item = {
+            'name' : category[0],
+            'percentage' : percentage
+        }
+        game_percentage_list.append(item)
+
         correct_per = math.floor((correct_counts_byGame[index][1] / category[1]) * 100)
-        correct_percentage_dict[category[0]] = correct_per
+        item = {
+            'name' : category[0],
+            'percentage' : correct_per
+        }
+        correct_percentage_list.append(item)
 
-    # print(game_counts_byCategory)
-    # print(correct_counts_byGame)
-    # print(all_game_count)
-    # print(game_percentage_dict)
-    # print(correct_percentage_dict)
+    print(game_percentage_list)
+    print(correct_percentage_list)
 
-    return render_template('account.html', user=userName, userID=userID, games_dict=game_percentage_dict, correct_dict=correct_percentage_dict)
+    return render_template('account.html', user=name, userID=userID, email=email, games_list=game_percentage_list, correct_list=correct_percentage_list)
 
 
 #----------------------------- error handler -----------------------------------

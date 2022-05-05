@@ -1,7 +1,43 @@
 {% extends 'base.html' %}
 
 {% block title %}<title>account</title>{% endblock %}
+{% block css %}
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/chart.css') }}">
+{% endblock%}
 
 {% block main %}
-<h1>account page</h1>
+<div id="profile">
+  <p class="prof-p">name</p>
+  <p class="prof-p">{{ user }}</p>
+  <p class="prof-p">email</p>
+  <p class="prof-p">{{ email }}</p>
+  <div id="edit-btn">
+    <button>Edit</button>
+  </div>
+</div>
+<div id=records>
+  <div id="distribution-byCategory">
+    <h6>category percentage</h6>
+    {% for item in games_list %}
+      <li>
+        <p class="p name" style="font-size: 15px;">{{ item['name'] }}</p>
+        <p class="bar" id="category-bar" style="width: {{ item['percentage'] }}%;"></p>
+        <p class="percentage p">{{ item['percentage'] }}%</p>
+      </li>
+    {% endfor %}
+  </div>
+  <div id="correct-rate-byCategory">
+    <h6>correct percentage</h6>
+    {% for item in correct_list %}
+      <li>
+        <p class="p" style="font-size: 15px;">{{ item['name'] }}</p>
+        <div class="bar" id="correct-bar" style="width: {{ item['percentage'] }}%;"></div>
+        <p class="percentage p">{{ item['percentage'] }}%</p>
+      </li>
+    {% endfor %}
+  </div>
+
+</div>
+
+
 {% endblock %}
