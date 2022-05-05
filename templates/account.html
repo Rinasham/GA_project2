@@ -23,7 +23,7 @@
 
 <div id=records>
   <div id="distribution-byCategory">
-    <h6>Category percentage</h6>
+    <h6>Total played - Category percentage</h6>
     {% for item in games_list %}
       <li>
         <p class="p name" style="font-size: 15px;">{{ item['name'] }}</p>
@@ -33,7 +33,7 @@
     {% endfor %}
   </div>
   <div id="correct-rate-byCategory">
-    <h6>Correct percentage</h6>
+    <h6>Correct answer percentage</h6>
     {% for item in correct_list %}
       <li>
         <p class="p" style="font-size: 15px;">{{ item['name'] }}</p>
