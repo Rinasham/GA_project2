@@ -322,7 +322,6 @@ footer > p {
 #code-choices {
   display: flex;
   justify-content: center;
-  font-size: 0.7em;
 }
 
 #code-choices > p {

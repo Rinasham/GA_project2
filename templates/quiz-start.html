@@ -10,6 +10,7 @@
   <!-- <p><a href="{{ url_for('quiz_main', categoryName='docker')}}">Docker</a></p> -->
   <p><a href="{{ url_for('quiz_main', categoryName='computer')}}" onclick="disableCategories()" class="disable-btn">Computer</a></p>
   <p><a href="{{ url_for('quiz_main', categoryName='database')}}" onclick="disableCategories()" class="disable-btn">Database</a></p>
+  <p><a href="{{ url_for('quiz_main', categoryName='git')}}" onclick="disableCategories()" class="disable-btn">Git</a></p>
   <p>↓ Languages ↓</p>
   <div id="code-choices">
     <p><a href="{{ url_for('quiz_main', categoryName='html')}}" onclick="disableCategories()" class="disable-btn">HTML</a></p>
@@ -17,6 +18,5 @@
     <p><a href="{{ url_for('quiz_main', categoryName='javascript')}}" onclick="disableCategories()" class="disable-btn">JavaScript</a></p>
     <p><a href="{{ url_for('quiz_main', categoryName='python')}}" onclick="disableCategories()" class="disable-btn">Python</a></p>
   </div>
-  <p><a href="{{ url_for('quiz_main', categoryName='git')}}" onclick="disableCategories()" class="disable-btn">Git</a></p>
 </div>
 {% endblock %}
