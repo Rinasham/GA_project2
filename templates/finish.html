@@ -4,15 +4,17 @@
 
 {% block main %}
 <div id="result">
-  <!-- <p>{{ QandA_list | length }}</p> -->
   {% for item in QandA_list %}
-  <div class="QandA">
-    <p>{{ loop.index }}.</p>
-    <p class="result-question">
-      {{ item['question'] }}
-    </p>
-    <p class="answer">{{ item['answer'] }}</p>
+    <div class="QandA">
+      <p>{{ loop.index }}.</p>
+      <p class="result-question">
+        {{ item['question'] }}
+      </p>
+      <p class="answer">{{ item['answer'] }}</p>
+    </div>
+  {% endfor %}
+  <div class="play">
+    <h4 class="play-btn" style="margin:20px 0 5px 0; padding: 6px;"><a href="{{ url_for('quiz_top') }}"">Try again!</a></h4>
   </div>
-{% endfor %}
 </div>
 {% endblock %}
