@@ -1,6 +1,26 @@
 {% extends 'base.html' %}
 
 {% block title %}<title>about</title>{% endblock %}
+{% block css %}
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/about.css') }}">
+{% endblock%}
 {% block main %}
-<h1>ABOUT</h1>
+<h1>ABOUT US</h1>
+<p class="about-p">This is a quiz that will test your programming knowledge.</p>
+<p class="about-p">These questions were created by myself for everyone to have fun!</p>
+<div id="bio">
+  <div id="my-profile">
+    <div class="flex">
+      <p class="about-p lined-p">Creator</p>
+      <p class="about-p lined-p">Rina</p>
+    </div>
+    <div class="flex">
+      <p class="about-p lined-p">Links</p>
+      <p class="about-p lined-p"><a href="https://github.com/Rinasham"></a>Github</a></p>
+    </div>
+
+  </div>
+  <img src="{{ url_for('static',filename='imgs/bio.png') }}" id="photo">
+</div>
+<h2><a href="{{ url_for('showContact') }}" class="lined-p">Contact us!</a></h2>
 {% endblock %}

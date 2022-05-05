@@ -1,0 +1,34 @@
+#bio {
+  display: flex;
+  margin-top: 15px;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  background-color: rgba(191,172,155,0.75);
+  padding: 20px;
+  margin: 15px auto;
+}
+
+.flex {
+  display: flex;
+  gap: 15px;
+}
+
+.lined-p {
+  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
+  border-style: solid;
+  padding-bottom: 5px;
+}
+
+.about-p {
+  margin: 4px;
+}
+
+#my-profile {
+  display: flex;
+  flex-direction: column;
+}
+
+#photo {
+  width: 100px;
+}

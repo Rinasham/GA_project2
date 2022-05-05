@@ -3,14 +3,14 @@
 {% block title %}<title>start</title>{% endblock %}
 
 {% block main %}
-<h1 class="page-title">Quiz page</h1>
+<h1 class="page-title">Choose category</h1>
 <div>
   <p><a href="{{ url_for('quiz_main', categoryName='linux')}}" onclick="disableCategories()" class="disable-btn">Linux</a></p>
   <p><a href="{{ url_for('quiz_main', categoryName='network')}}" onclick="disableCategories()" class="disable-btn">Network</a></p>
   <!-- <p><a href="{{ url_for('quiz_main', categoryName='docker')}}">Docker</a></p> -->
   <p><a href="{{ url_for('quiz_main', categoryName='computer')}}" onclick="disableCategories()" class="disable-btn">Computer</a></p>
   <p><a href="{{ url_for('quiz_main', categoryName='database')}}" onclick="disableCategories()" class="disable-btn">Database</a></p>
-  <p>↓ Code ↓</p>
+  <p>↓ Languages ↓</p>
   <div id="code-choices">
     <p><a href="{{ url_for('quiz_main', categoryName='html')}}" onclick="disableCategories()" class="disable-btn">HTML</a></p>
     <p><a href="{{ url_for('quiz_main', categoryName='css')}}" onclick="disableCategories()" class="disable-btn">CSS</a></p>
