@@ -57,6 +57,9 @@ h6 {
   height: 15px;
 }
 
+.name {
+  margin-left: 5px;
+}
 
 .bar {
   height: 15px;
