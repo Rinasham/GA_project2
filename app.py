@@ -29,7 +29,7 @@ category_list = ['linux', 'network', 'computer', 'database', 'html', 'css', 'jav
 
 @app.route('/signup')
 def show_signup():
-    return render_template('registartion/signup.html')
+    return render_template('registration/signup.html')
 
 @app.route('/signup', methods=['POST'])
 def signup():
