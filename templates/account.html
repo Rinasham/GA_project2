@@ -8,13 +8,13 @@
 {% block main %}
 
 <form action="/account" method="POST" id="profile">
-  <p class="prof-p">name</p>
+  <p class="prof-p">Name</p>
   <input class="prof-p" value="{{ user }}" name="name">
-  <p class="prof-p">email</p>
+  <p class="prof-p">Email</p>
   <input class="prof-p" value="{{ email }}" name="email">
-  <p class="prof-p">current passwword</p>
+  <p class="prof-p">Current passwword</p>
   <input class="prof-p" name="current_pass" placeholder="current password">
-  <p class="prof-p">new passwword</p>
+  <p class="prof-p">New passwword</p>
   <input class="prof-p" name="new_pass" placeholder="new password">
   <div id="edit-btn">
     <button>Edit</button>
@@ -23,7 +23,7 @@
 
 <div id=records>
   <div id="distribution-byCategory">
-    <h6>category percentage</h6>
+    <h6>Category percentage</h6>
     {% for item in games_list %}
       <li>
         <p class="p name" style="font-size: 15px;">{{ item['name'] }}</p>
@@ -33,7 +33,7 @@
     {% endfor %}
   </div>
   <div id="correct-rate-byCategory">
-    <h6>correct percentage</h6>
+    <h6>Correct percentage</h6>
     {% for item in correct_list %}
       <li>
         <p class="p" style="font-size: 15px;">{{ item['name'] }}</p>

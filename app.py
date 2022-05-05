@@ -630,17 +630,29 @@ def show_account():
     item = {}
     for index, category in enumerate(game_counts_byCategory):
         percentage = math.floor((category[1] / all_game_count) * 100)
-        item = {
-            'name' : category[0],
-            'percentage' : percentage
-        }
+        if category[0] == 'css' or category[0] == 'html':
+            item = {
+                'name' : category[0].upper(),
+                'percentage' : percentage
+            }
+        else:
+            item = {
+                'name' : category[0].capitalize(),
+                'percentage' : percentage
+            }
         game_percentage_list.append(item)
 
         correct_per = math.floor((correct_counts_byGame[index][1] / category[1]) * 100)
-        item = {
-            'name' : category[0],
-            'percentage' : correct_per
-        }
+        if category[0] == 'css' or category[0] == 'html':
+            item = {
+                'name' : category[0].upper(),
+                'percentage' : correct_per
+            }
+        else:
+            item = {
+                'name' : category[0].capitalize(),
+                'percentage' : correct_per
+            }
         correct_percentage_list.append(item)
 
     return render_template('account.html', user=name, userID=userID, email=email, games_list=game_percentage_list, correct_list=correct_percentage_list)
