@@ -11,7 +11,7 @@ from user import get_user, check_is_admin
 from check_answer import check
 ## ------------ options --------------
 import random
-import json
+import math
 import os
 
 
@@ -618,8 +618,29 @@ def show_account():
         return redirect('/')
     userID, userName = get_user(userid)
     # get the number of quizzes the user has played
-    
-    return render_template('account.html', user=userName, userID=userID)
+    game_counts_byCategory = fetchAll(f"SELECT category, sum(quiz_count) FROM histories WHERE player_id={userID} GROUP BY category;")
+    correct_counts_byGame = fetchAll(f"SELECT category, sum(correct_count) FROM histories WHERE player_id={userID} GROUP BY category;")
+    all_game_count = fetchData(f"SELECT count(player_id={userID} OR NULL) FROM histories WHERE player_id={userID};")[0]
+
+    all_game_count *= 10
+
+    # dictionary for percentages of each category played
+    game_percentage_dict = {}
+    # dictionary for percentages of correct quizzes at each category
+    correct_percentage_dict = {}
+    for index, category in enumerate(game_counts_byCategory):
+        percentage = math.floor((category[1] / all_game_count) * 100)
+        game_percentage_dict[category[0]] = percentage
+        correct_per = math.floor((correct_counts_byGame[index][1] / category[1]) * 100)
+        correct_percentage_dict[category[0]] = correct_per
+
+    # print(game_counts_byCategory)
+    # print(correct_counts_byGame)
+    # print(all_game_count)
+    # print(game_percentage_dict)
+    # print(correct_percentage_dict)
+
+    return render_template('account.html', user=userName, userID=userID, games_dict=game_percentage_dict, correct_dict=correct_percentage_dict)
 
 
 #----------------------------- error handler -----------------------------------
