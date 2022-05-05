@@ -1,11 +1,19 @@
 #profile {
-  width: 100%;
-  margin: 20px;
-  padding: 10px 0;
+  width: 90%;
+  margin: 16px auto;
+  margin-top: 0;
+  padding: 10px;
   display: grid;
-  grid-template-columns: 30% 70%;
-  grid-template-rows: 20px 20px 1fr;
+  grid-template-columns: 10% 1fr 10% 1fr;
+  grid-template-rows: 25px 25px 1fr;
   background-color: rgba(35,34,38,0.85);
+  gap: 15px 0;
+}
+
+#profile input {
+  padding: 12px;
+  background-color: rgba(191,172,155,0.75);
+  color: #fff;
 }
 
 .prof-p {
@@ -14,12 +22,12 @@
 }
 
 #edit-btn {
-  grid-column: 1 / 3;
-  margin-top: 20px;
+  grid-column: 1 / 5;
+  margin-top: 10px;
 }
 
 #edit-btn > button {
-  margin: 15px 0;
+  margin: 0 0 15px 0;
 }
 
 
@@ -64,7 +72,6 @@ h6 {
 .bar {
   height: 15px;
   /* change width according to the win rate */
-  /* width: 70; */
   margin-left: 15px;
 }
 

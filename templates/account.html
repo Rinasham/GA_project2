@@ -6,15 +6,22 @@
 {% endblock%}
 
 {% block main %}
-<div id="profile">
+
+<form action="/account" method="POST" id="profile">
   <p class="prof-p">name</p>
-  <p class="prof-p">{{ user }}</p>
+  <input class="prof-p" value="{{ user }}" name="name"></input>
   <p class="prof-p">email</p>
-  <p class="prof-p">{{ email }}</p>
+  <input class="prof-p" value="{{ email }}" name="email"></input>
   <div id="edit-btn">
+  <!-- <p class="prof-p">current passwword</p>
+  <input class="prof-p" name="email" placeholder="current password"></input>
+  <p class="prof-p">new passwword</p>
+  <input class="prof-p" name="email" placeholder="new password"></input>
+  <div id="edit-btn"> -->
     <button>Edit</button>
-  </div>
+</form>
 </div>
+
 <div id=records>
   <div id="distribution-byCategory">
     <h6>category percentage</h6>

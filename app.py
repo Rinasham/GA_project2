@@ -313,6 +313,7 @@ def handle_quiz():
     if count < 11:
         print(f'game_idは{game_id}, quiz_countは{count}')
         get_quiz = fetchData(f"SELECT * FROM each_game WHERE game_id='{game_id}' and quiz_count={count}")
+
         next_quiz = {
             'id' : get_quiz[3],
             'question' : get_quiz[4],
@@ -323,9 +324,10 @@ def handle_quiz():
                 'd': get_quiz[11],
                 }
         }
-
+        correct_answer = get_quiz[5]
+        print(correct_answer)
         is_admin = session.get('is_admin')
-        return render_template('quiz-main.html', quiz = next_quiz, options_list = options_list, page=page, is_admin=is_admin, user=userName, userID=userID)
+        return render_template('quiz-main.html', quiz = next_quiz, correct_answer=correct_answer, options_list = options_list, page=page, is_admin=is_admin, user=userName, userID=userID)
     else:
         return redirect('/finish')
 
@@ -651,6 +653,17 @@ def show_account():
     print(correct_percentage_list)
 
     return render_template('account.html', user=name, userID=userID, email=email, games_list=game_percentage_list, correct_list=correct_percentage_list)
+
+
+
+
+@app.route('/account', methods=['POST'])
+def edit_profile():
+    userID = session.get('user_id')
+    name = request.form.get('name')
+    email = request.form.get('email')
+
+    return 'ok'
 
 
 #----------------------------- error handler -----------------------------------
