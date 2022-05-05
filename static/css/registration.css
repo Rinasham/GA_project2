@@ -85,3 +85,7 @@ button {
   opacity: 80%;
   color: #fff;
 }
+
+a, button, input {
+ cursor: pointer;
+}

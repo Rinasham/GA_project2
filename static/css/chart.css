@@ -19,6 +19,10 @@
   color: #fff;
 }
 
+::placeholder {
+  color: #fff;
+}
+
 .prof-p {
   font-size: 12px;
   /* margin: 0; */
