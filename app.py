@@ -668,6 +668,11 @@ def edit_profile():
     current_password =request.form.get('current_pass')
     new_password =request.form.get('new_pass')
 
+    if name =='' or email == '' or current_password =='' or new_password == '':
+        flash('Please fill in all the fields.','ng')
+        return redirect('/account')
+
+
     # check the current password is correct
     hashed_password = fetchData(f"SELECT hashed_password FROM users WHERE id={userID}")[0]
     is_valid = bcrypt.checkpw(current_password.encode(), hashed_password.encode())
