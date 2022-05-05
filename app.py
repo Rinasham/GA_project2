@@ -74,8 +74,6 @@ def show_login():
 def login():
     email = request.form.get('email')
     req_password = request.form.get('password1')
-    print(email)
-    print(f'password: {req_password}')
 
     # flash for empty input
     if email =='' or req_password =='':
@@ -86,16 +84,13 @@ def login():
         try:
             cur.execute(f"SELECT id, hashed_password, is_admin FROM users WHERE email='{email}'")
             result = cur.fetchone()
-            print(result)
             ## check whether the password is correct or not
             hashed_password = result[1]
             is_admin = result[2]
             is_valid = bcrypt.checkpw(req_password.encode(), hashed_password.encode())
-            print(is_valid)
             # if the password is correct, set user-id to session
             if is_valid:
                 found_id = result[0]
-                print(f'User found. {found_id}')
                 session['user_id'] = found_id
                 session['is_admin'] = is_admin
             else:
@@ -222,7 +217,6 @@ def quiz_main(categoryName):
 
         foundQuiz = requests.get(url).json() # obj -> list
         list = random.sample(foundQuiz, 10)
-        print(len(list))
         quizzes_list = []
         for index, item in enumerate(list):
             quiz = []
@@ -325,7 +319,7 @@ def handle_quiz():
                 }
         }
         correct_answer = get_quiz[5]
-        print(correct_answer)
+
         is_admin = session.get('is_admin')
         return render_template('quiz-main.html', quiz = next_quiz, correct_answer=correct_answer, options_list = options_list, page=page, is_admin=is_admin, user=userName, userID=userID)
     else:
@@ -345,15 +339,15 @@ def check_answer():
     correct_count = fetchData(f'SELECT correct_count FROM games Where id={game_id}')[0]
 
     current_quiz_answer = fetchData(f'SELECT correct_answer FROM each_game WHERE game_id={game_id} AND quiz_count={count}')[0]
-    print(current_quiz_answer, chosen_answer)
+
     # check whether the chosen answer was correct
     checked_answer = check(current_quiz_answer, chosen_answer)
-    print(checked_answer)
+
     if checked_answer == True:
         updateData(f'UPDATE games set correct_count = {correct_count +1} WHERE id={game_id}')
     session['count'] += 1
     correct_count = fetchData(f'SELECT correct_count FROM games Where id={game_id}')[0]
-    print(str(correct_count) + ' : correct_count')
+
 
     return redirect('/progress')
 
@@ -382,7 +376,7 @@ def show_answers():
     data = fetchData(f"SELECT correct_count, category FROM games WHERE id={game_id}")
     correct_count = data[0]
     category = data[1]
-    print(correct_count, category)
+
     insert = insertData(f"""
                         INSERT INTO histories(player_id, correct_count, quiz_count, category) VALUES
                         ({userID}, {correct_count}, 10, '{category}')
@@ -417,7 +411,7 @@ def save_request():
     answer_d = request.form.get('answer_d')
     correct_answer = request.form.get('correct-answer')
     category = request.form.get('category')
-    print(question, answer_a, answer_b, answer_c, answer_d, correct_answer, correct_answer, category)
+
 
     # insert the game data into result table
     conn, cur = connectToDB()
@@ -445,7 +439,7 @@ def save_request():
 @app.route('/admin')
 def show_admin():
     userID = session.get('user_id')
-    print(userID)
+
     # check whether the user is admin
     is_admin = check_is_admin(userID)
     if is_admin == True:
@@ -519,7 +513,7 @@ def show_update(id):
                 'correct_answer' : res['correct_answer'],
                 'category' : res['category']
             }
-            print(data['id'])
+
 
             return render_template('admin/update.html', data=data, options=options_list, category_list=category_list)
         else:
@@ -534,7 +528,7 @@ def show_update(id):
 @app.route('/update', methods=['POST'])
 def update_quiz():
     reqID = request.form.get('id')
-    print(f'requested id is {reqID}')
+
     question = request.form.get('question')
     answer_a = request.form.get('answer_a')
     answer_b = request.form.get('answer_b')
@@ -593,7 +587,7 @@ def show_delete(id):
 @app.route('/delete', methods=['POST'])
 def delete_quiz():
     reqID = request.form.get('id')
-    print(reqID)
+
 ##########################################################
     # url = f'http://localhost:3000/delete/{reqID}'
     url = f'https://project2-node-express.herokuapp.com/delete/{reqID}'
@@ -649,9 +643,6 @@ def show_account():
         }
         correct_percentage_list.append(item)
 
-    print(game_percentage_list)
-    print(correct_percentage_list)
-
     return render_template('account.html', user=name, userID=userID, email=email, games_list=game_percentage_list, correct_list=correct_percentage_list)
 
 
@@ -662,9 +653,24 @@ def edit_profile():
     userID = session.get('user_id')
     name = request.form.get('name')
     email = request.form.get('email')
+    current_password =request.form.get('current_pass')
+    new_password =request.form.get('new_pass')
 
-    return 'ok'
-
+    # check the current password is correct
+    hashed_password = fetchData(f"SELECT hashed_password FROM users WHERE id={userID}")[0]
+    is_valid = bcrypt.checkpw(current_password.encode(), hashed_password.encode())
+    if is_valid:
+        hashed_new_password = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
+        update = updateData(f"UPDATE users set hashed_password='{hashed_new_password}' WHERE id={userID}")
+        if update == True:
+            text = 'Successfully updated your data.'
+            return render_template('success-fail/success.html', text=text)
+        else:
+            text = 'We could not update your data. Please try again.'
+            return render_template('success-fail/fail.html', text=text)
+    else:
+        text = 'We could not update your data. Please try again.'
+        return render_template('success-fail/fail.html', text=text)
 
 #----------------------------- error handler -----------------------------------
 

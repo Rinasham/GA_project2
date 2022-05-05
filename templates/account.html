@@ -9,18 +9,17 @@
 
 <form action="/account" method="POST" id="profile">
   <p class="prof-p">name</p>
-  <input class="prof-p" value="{{ user }}" name="name"></input>
+  <input class="prof-p" value="{{ user }}" name="name">
   <p class="prof-p">email</p>
-  <input class="prof-p" value="{{ email }}" name="email"></input>
-  <div id="edit-btn">
-  <!-- <p class="prof-p">current passwword</p>
-  <input class="prof-p" name="email" placeholder="current password"></input>
+  <input class="prof-p" value="{{ email }}" name="email">
+  <p class="prof-p">current passwword</p>
+  <input class="prof-p" name="current_pass" placeholder="current password">
   <p class="prof-p">new passwword</p>
-  <input class="prof-p" name="email" placeholder="new password"></input>
-  <div id="edit-btn"> -->
+  <input class="prof-p" name="new_pass" placeholder="new password">
+  <div id="edit-btn">
     <button>Edit</button>
+  </div>
 </form>
-</div>
 
 <div id=records>
   <div id="distribution-byCategory">

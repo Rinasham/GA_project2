@@ -1,9 +1,12 @@
 #profile {
-  width: 90%;
-  margin: 16px auto;
+  width: 100%;
+  /* margin: 16px auto; */
   margin-top: 0;
-  padding: 10px;
+  margin-bottom: 20px;
+  padding: 4px;
+  padding-top: 17px;
   display: grid;
+  align-items: center;
   grid-template-columns: 10% 1fr 10% 1fr;
   grid-template-rows: 25px 25px 1fr;
   background-color: rgba(35,34,38,0.85);
@@ -11,19 +14,19 @@
 }
 
 #profile input {
-  padding: 12px;
+  padding: 7px;
   background-color: rgba(191,172,155,0.75);
   color: #fff;
 }
 
 .prof-p {
-  font-size: 15px;
+  font-size: 12px;
   /* margin: 0; */
 }
 
 #edit-btn {
   grid-column: 1 / 5;
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 #edit-btn > button {
