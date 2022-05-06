@@ -13,7 +13,9 @@ function disableAnswers(event){
   const chosenAnswer  = event.target.value
   const answers = document.getElementsByClassName('answer-submit')
   let clickCount = 0
+  const guideBtn = document.getElementById('click-next')
 
+  guideBtn.style.visibility = 'visible'
 
   for (let i = 0; i < answers.length; i++) {
     answers[i].style.pointerEvents = 'none'

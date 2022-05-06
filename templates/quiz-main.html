@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}<title>main</title>{% endblock %}
+{% block css %}
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/quiz-main.css') }}">
+{% endblock%}
 {% block js %}
 <script type="text/javascript">
   let answer = JSON.parse('{{ correct_answer|tojson }}')
@@ -24,6 +27,7 @@
       {% endfor %}
     </div>
   </div>
+  <p id="click-next">Click anywhere to go to the next quiestion.</p>
   {% if is_admin == True %}
   <div id="admin-btn">
       <p><a href="/update/{{ quiz['id'] }}">Update this quiz</a></p>

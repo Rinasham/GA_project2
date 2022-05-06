@@ -210,6 +210,22 @@ h1 {
 }
 
 
+/* ------------- landing page ------------------------ */
+
+.play{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.play-btn {
+  width: 50%;
+  background-color: #8C323A;
+}
+
+.play-btn > a:hover {
+  color: lightgray;
+}
 
 
 /* -------------------------- footer ----------------------------------- */
@@ -231,138 +247,6 @@ footer > p {
 }
 
 
-/* ------------  quiz page -------------------------------------------- */
-
-.page-title {
-  padding-bottom: 0.3em;
-  border-bottom: 0;
-  border-image: linear-gradient(to left, #666 0%, #fff 100%) 1/0 0 1px 0;
-  border-style: solid;
-  padding-top: 1em;
-}
-
-
-#quiz-wrapper {
-  background-color:rgba(255,255,255,0.8);
-  width: 90%;
-  height: 40vh;
-  margin: auto;
-  text-align: center;
-  padding: 1em;
-  color: #232226;
-  display: flex;
-  justify-content: space-around;
-  column-gap: 15px;
-}
-
-#question, #options {
-  width: 50%;
-}
-
-#question{
-  display: flex;
-  align-items: center;
-}
-
-#quiestion > p {
-  line-height: 140%;
-}
-
-#options {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-}
-
-#options > form {
-  height: 20%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#options > form > button {
-  background-color: Transparent;
-  margin: 0;
-  margin-bottom: 0;
-}
-
-#options > form > button:hover {
-  color: #8C323A;
-}
-
-#options > button {
-  padding: 0;
-  margin: 0;
-}
-
-
-
-
-.play{
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.play-btn {
-  width: 50%;
-  background-color: #8C323A;
-}
-
-.play-btn > a:hover {
-  color: lightgray;
-}
-
-
-
-
-/* ------ code options ---------- */
-
-#code-choices {
-  display: flex;
-  justify-content: center;
-}
-
-#code-choices > p {
-  margin: 0 7px;
-  padding: 0 12px 4px;
-  padding-bottom: 4px;
-  border-bottom: solid 2px #8C323A;
-}
-
-/* ------ result page ---------- */
-
-#result {
-  width: 90%;
-  margin-top: 0.5em;
-  padding: 0.8em;
-  background-color: rgba(255,255,255,0.8);
-  color: #232226;
-}
-
-.result-question {
-  width: 65%;
-}
-
-.QandA{
-  display: flex;
-  font-size: smaller;
-}
-
-.QandA:first-child{
-  margin-right: 10px;
-}
-
-.QandA > p {
-  margin: 0.6em;
-  text-align: left;
-}
-
-.QandA:hover {
-  background-color: #4C7373;
-  color: #fff;
-}
 
 
 

@@ -36,7 +36,7 @@
     <h6>Correct answer percentage</h6>
     {% for item in correct_list %}
       <li>
-        <p class="p" style="font-size: 15px;">{{ item['name'] }}</p>
+        <p class="p name" style="font-size: 15px;">{{ item['name'] }}</p>
         <div class="bar" id="correct-bar" style="width: {{ item['percentage'] }}%;"></div>
         <p class="percentage p">{{ item['percentage'] }}%</p>
       </li>

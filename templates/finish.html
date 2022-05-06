@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {% block title %}<title>finish</title>{% endblock %}
+{% block css %}
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='css/quiz-main.css') }}">
+{% endblock%}
 
 {% block main %}
 <div id="result">
