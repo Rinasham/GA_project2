@@ -197,6 +197,7 @@ def quiz_top():
     if userID == None:
         return redirect('/login')
 
+
     userID, userName = get_user(userID)
     return render_template('quiz-start.html', page=page, user=userName, userID=userID)
 
@@ -339,7 +340,7 @@ def check_answer():
     correct_count = fetchData(f'SELECT correct_count FROM games Where id={game_id}')[0]
 
     current_quiz_answer = fetchData(f'SELECT correct_answer FROM each_game WHERE game_id={game_id} AND quiz_count={count}')[0]
-
+    print(f"chosen_answer : {chosen_answer},  correct_answer:  {current_quiz_answer}")
     # check whether the chosen answer was correct
     checked_answer = check(current_quiz_answer, chosen_answer)
 
@@ -623,6 +624,7 @@ def show_account():
 
     all_game_count *= 10
 
+    print(correct_counts_byGame)
     # dictionary for percentages of each category played
     game_percentage_list = []  #[{'nane' : category, 'percentage' : percentage}, {}...]
     # dictionary for percentages of correct quizzes at each category
@@ -654,7 +656,7 @@ def show_account():
                 'percentage' : correct_per
             }
         correct_percentage_list.append(item)
-
+    print(correct_percentage_list)
     return render_template('account.html', user=name, userID=userID, email=email, games_list=game_percentage_list, correct_list=correct_percentage_list)
 
 

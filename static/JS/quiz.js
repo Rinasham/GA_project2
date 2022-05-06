@@ -9,6 +9,7 @@ function disableCategories(){
 
 function disableAnswers(event){
   event.preventDefault()
+  const form = event.target.parentNode
 
   const chosenAnswer  = event.target.value
   const answers = document.getElementsByClassName('answer-submit')
@@ -34,7 +35,7 @@ function disableAnswers(event){
         clickCount += 1
         console.log(clickCount);
         if(clickCount >= 2){
-          form = forms[i].submit()
+          form.submit()
         }
       })
     } else if(chosenAnswer == option.value) {
