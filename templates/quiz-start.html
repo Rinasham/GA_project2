@@ -6,7 +6,8 @@
 {% endblock%}
 
 {% block main %}
-<h1 class="page-title">Choose category</h1>
+<h1 style="margin-bottom: 0; padding-bottom: 0;">Choose category</h1>
+<p class="page-title" style="margin-top: 0;">You will answer 10 random questions from that catgory!</p>
 <div>
   <p><a href="{{ url_for('quiz_main', categoryName='linux')}}" onclick="disableCategories()" class="disable-btn">Linux</a></p>
   <p><a href="{{ url_for('quiz_main', categoryName='network')}}" onclick="disableCategories()" class="disable-btn">Network</a></p>

@@ -6,7 +6,7 @@ from flask import Flask, request, redirect, render_template, session, flash
 import requests
 import bcrypt
 ## ------------ other files --------------
-from db_settings import DB_URL, connectToDB, closeDB, deleteData, fetchData, fetchAll, insertData, updateData
+from db_settings import DB_URL, connectToDB, closeDB, deleteData, fetchData, fetchAll, insertData, updateData, deletefrom_each_game
 from user import get_user, check_is_admin
 from check_answer import check
 ## ------------ options --------------
@@ -52,7 +52,7 @@ def signup():
     # insert user into DB
     conn, cur = connectToDB()
     try:
-        cur.execute("INSERT INTO users(email, name, hashed_password) VALUES(%s,%s,%s)", (req_email, req_name, hashed_req_password))
+        cur.execute("INSERT INTO users(email, name, hashed_password,is_admin) VALUES(%s,%s,%s,%s)", (req_email, req_name, hashed_req_password, False))
         conn.commit()
         print('Successfully inserted new user data into table.')
     except  (Exception, psycopg2.Error) as error:
@@ -131,6 +131,9 @@ def index():
         return render_template('home.html', user=None)
     userID, userName = get_user(userId)
 
+    # game_id = session.get('game_id')
+    # deletefrom_each_game(game_id)
+
     return render_template('home.html', user=userName, userID=userID, page=page)
 
 
@@ -141,6 +144,8 @@ def showContact():
     page = 'contact'
     userId = session.get('user_id')
     userID, userName = get_user(userId)
+    # game_id = session.get('game_id')
+    # deletefrom_each_game(game_id)
     return render_template('contact.html', user=userName, userID=userID, page='contact')
 
 
@@ -197,6 +202,8 @@ def quiz_top():
     if userID == None:
         return redirect('/login')
 
+    game_id = session.get('game_id')
+    deletefrom_each_game(game_id)
 
     userID, userName = get_user(userID)
     return render_template('quiz-start.html', page=page, user=userName, userID=userID)
@@ -385,12 +392,10 @@ def show_answers():
     if insert == False:
         text = 'Sorry it seems like there was an error.'
         return render_template('success-fail/fail.html', text=text)
-    # delete data from each_game table
-    delete = deleteData(f"DELETE FROM each_game WHERE game_id = {game_id}")
+    # # delete data from each_game table
+    # deletefrom_each_game(game_id)
 
     return render_template('finish.html', QandA_list = QandA_list, page=page, user=userName, userID=userID)
-
-
 
 
 #----------------------------- quiz request -----------------------------------
