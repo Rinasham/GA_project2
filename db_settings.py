@@ -1,5 +1,6 @@
 import psycopg2
 import os
+from flask import session
 
 DB_URL= os.environ.get('DATABASE_URL', 'dbname=quiz_api_db')
 # DB_URL = ('dbname=quiz_api_db')
@@ -110,3 +111,7 @@ def deleteData(query):
     finally:
         if (conn):
             closeDB(conn,cur)
+
+
+def deletefrom_each_game(game_id):
+    delete = deleteData(f"DELETE FROM each_game WHERE game_id = {game_id}")
