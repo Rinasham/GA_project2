@@ -1,6 +1,7 @@
 # GA_project2
 General assembly Project 2 : **Tech Quiz App**
-URL : [https://project2-flask.herokuapp.com/](URL "https://project2-flask.herokuapp.com/")
+
+[https://project2-flask.herokuapp.com/](https://project2-flask.herokuapp.com/)
 
 ![img](https://user-images.githubusercontent.com/84213832/166942110-f60f67cc-0417-45cd-9323-0a5622741b47.png)
 
